@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Tutor Reference — All 4 Lessons</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Arial,sans-serif;background:#f0f4f8;color:#333;}
+
+/* TOP NAV */
+.topnav{display:flex;gap:6px;padding:14px 20px;background:#2a5fa5;position:sticky;top:0;z-index:100;flex-wrap:wrap;}
+.topnav button{font-size:13px;padding:7px 16px;border-radius:20px;border:1.5px solid rgba(255,255,255,0.4);background:transparent;color:white;cursor:pointer;}
+.topnav button.on{background:white;color:#2a5fa5;font-weight:bold;}
+.topnav .title{color:white;font-weight:bold;font-size:15px;display:flex;align-items:center;margin-right:10px;}
+
+/* LESSON PANELS */
+.lesson{display:none;padding:24px 20px;max-width:960px;margin:0 auto;}
+.lesson.on{display:block;}
+
+/* SECTION CARDS */
+.section-card{background:white;border-radius:12px;border:1px solid #ddd;padding:20px 24px;margin-bottom:20px;}
+.section-card h2{font-size:17px;color:#2a5fa5;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.section-card h3{font-size:14px;color:#444;margin:14px 0 6px;font-weight:bold;}
+
+/* LESSON HEADER */
+.lesson-header{background:#2a5fa5;color:white;border-radius:12px;padding:20px 24px;margin-bottom:20px;}
+.lesson-header h1{font-size:20px;margin-bottom:4px;}
+.lesson-header p{font-size:13px;opacity:0.85;}
+.lesson-header .meta{display:flex;gap:16px;margin-top:12px;flex-wrap:wrap;}
+.lesson-header .meta span{font-size:12px;background:rgba(255,255,255,0.2);padding:4px 12px;border-radius:20px;}
+
+/* TAGS */
+.tag{display:inline-block;font-size:11px;font-weight:bold;padding:3px 10px;border-radius:20px;margin:2px;}
+.tag-obj{background:#e6f1fb;color:#0c447c;}
+.tag-warn{background:#ffeaa7;color:#7a4400;}
+.tag-tip{background:#d5f5e3;color:#1a6b3a;}
+.tag-err{background:#fde8e8;color:#8a1a1a;}
+.tag-time{background:#f0eeff;color:#3a2a99;}
+
+/* TABLES */
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px;}
+th{background:#f0f4f8;text-align:left;padding:8px 10px;color:#555;font-weight:bold;border-bottom:2px solid #ddd;}
+td{padding:8px 10px;border-bottom:1px solid #f0f0f0;vertical-align:top;}
+tr:last-child td{border-bottom:none;}
+td:first-child{font-weight:bold;color:#2a5fa5;white-space:nowrap;}
+
+/* TIMING BAR */
+.timing-row{display:flex;gap:6px;margin:10px 0;flex-wrap:wrap;}
+.timing-block{border-radius:6px;padding:6px 10px;font-size:12px;text-align:center;min-width:80px;}
+
+/* CODE */
+.code{background:#f4f4f4;border-radius:6px;border:1px solid #e0e0e0;padding:10px 14px;font-family:'Courier New',monospace;font-size:12px;line-height:1.8;color:#222;margin:8px 0;overflow-x:auto;}
+.cm{color:#999;}.kw{color:#7F77DD;}.st{color:#1D9E75;}.cd{color:#D85A30;}.at{color:#378ADD;}.tg2{color:#D85A30;}.val{color:#1D9E75;}
+
+/* CHECKLIST */
+.checklist{list-style:none;display:flex;flex-direction:column;gap:6px;margin-top:8px;}
+.checklist li{display:flex;gap:10px;font-size:13px;align-items:flex-start;line-height:1.5;}
+.checklist li::before{content:"☐";color:#2a5fa5;font-size:14px;flex-shrink:0;}
+.checklist li.done::before{content:"☑";color:#27ae60;}
+
+/* TWO COL */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:10px;}
+@media(max-width:600px){.two{grid-template-columns:1fr;}}
+
+/* ALERT BOXES */
+.alert{border-radius:8px;padding:10px 14px;font-size:13px;margin:8px 0;line-height:1.6;}
+.alert-tip{background:#d5f5e3;border-left:4px solid #27ae60;color:#1a4a2a;}
+.alert-warn{background:#fef9e7;border-left:4px solid #f39c12;color:#6e4a00;}
+.alert-err{background:#fde8e8;border-left:4px solid #e74c3c;color:#6a1a1a;}
+.alert-info{background:#e6f1fb;border-left:4px solid #2a5fa5;color:#0c3a6a;}
+
+/* PRINT */
+@media print{
+  .topnav{display:none;}
+  .lesson{display:block!important;page-break-after:always;}
+}
+</style>
+</head>
+<body>
+
+<div class="topnav">
+  <div class="title">Tutor Notes</div>
+  <button class="on" onclick="show(1)">Lesson 1 — HTML &amp; CSS</button>
+  <button onclick="show(2)">Lesson 2 — JavaScript</button>
+  <button onclick="show(3)">Lesson 3 — Flexbox &amp; Layout</button>
+  <button onclick="show(4)">Lesson 4 — Arrays &amp; Events</button>
+</div>
+
+<!-- ===================== LESSON 1 ===================== -->
+<div class="lesson on" id="l1">
+
+  <div class="lesson-header">
+    <h1>Lesson 1 — HTML &amp; CSS Basics</h1>
+    <p>Student builds their first About Me webpage from scratch using HTML tags and CSS styling.</p>
+    <div class="meta">
+      <span>Duration: ~30 min</span>
+      <span>Level: Absolute beginner</span>
+      <span>File: aboutme.html</span>
+      <span>Tools: VS Code + Chrome</span>
+    </div>
+  </div>
+
+  <!-- OBJECTIVES -->
+  <div class="section-card">
+    <h2>Learning objectives</h2>
+    <ul class="checklist">
+      <li>Understand what HTML is and how the browser reads it</li>
+      <li>Know the basic HTML skeleton (DOCTYPE, html, head, body)</li>
+      <li>Use at least 5 HTML tags correctly (h1, p, a, ul/li, div)</li>
+      <li>Write a CSS rule with selector, property and value</li>
+      <li>Use a CSS class to style multiple elements</li>
+      <li>Distinguish between padding, margin and border</li>
+    </ul>
+  </div>
+
+  <!-- TIMING -->
+  <div class="section-card">
+    <h2>Lesson timing</h2>
+    <div class="timing-row">
+      <div class="timing-block" style="background:#e6f1fb;color:#0c447c;">0–5 min<br><strong>Intro</strong></div>
+      <div class="timing-block" style="background:#e6f1fb;color:#0c447c;">5–12 min<br><strong>HTML tags</strong></div>
+      <div class="timing-block" style="background:#d5f5e3;color:#1a6b3a;">12–19 min<br><strong>Page skeleton</strong></div>
+      <div class="timing-block" style="background:#d5f5e3;color:#1a6b3a;">19–27 min<br><strong>CSS styling</strong></div>
+      <div class="timing-block" style="background:#f0eeff;color:#3a2a99;">27–30 min<br><strong>Challenge</strong></div>
+    </div>
+  </div>
+
+  <!-- TEACHING NOTES -->
+  <div class="section-card">
+    <h2>Teaching notes — slide by slide</h2>
+
+    <h3>Slide 3 — What is HTML?</h3>
+    <div class="alert alert-tip">Ask her to open VS Code and create a new file called <code>aboutme.html</code> before you explain tags. Seeing the blank file makes the explanation click faster.</div>
+    <p style="font-size:13px;color:#555;margin-top:6px;">Good analogy: HTML is like a recipe — the browser follows the tags to know what to cook (display).</p>
+
+    <h3>Slide 4 — Essential HTML tags</h3>
+    <div class="alert alert-warn">Common mistake: forgetting the closing tag (e.g. writing &lt;h1&gt; but no &lt;/h1&gt;). Tell her VS Code will highlight unmatched tags in red — a useful self-check.</div>
+    <p style="font-size:13px;color:#555;margin-top:6px;">Let her type each tag herself, one by one. Resist the urge to show a completed example too early.</p>
+
+    <h3>Slide 5 — Page skeleton</h3>
+    <div class="alert alert-info">Explain: &lt;head&gt; is behind the scenes (settings), &lt;body&gt; is what the user sees. Use the analogy of an iceberg — head is below the water, body is the visible part.</div>
+
+    <h3>Slide 6 — CSS basics</h3>
+    <div class="alert alert-tip">Live demo trick: open Chrome DevTools (F12 → Elements → Styles) and change a CSS value live. She can see the page update instantly — very "wow" moment for beginners.</div>
+
+    <h3>Slide 7 — Common CSS properties</h3>
+    <p style="font-size:13px;color:#555;margin-top:6px;">Focus on: color, background-color, font-size, margin, padding. Don't introduce too many at once.</p>
+    <div class="alert alert-warn">Students often confuse margin and padding. Use this: padding = the pillow inside the box, margin = the space around the box on the table.</div>
+  </div>
+
+  <!-- COMMON ERRORS -->
+  <div class="section-card">
+    <h2>Common errors to watch for</h2>
+    <table>
+      <tr><th>Error</th><th>Likely cause</th><th>How to fix</th></tr>
+      <tr><td>Page shows raw code</td><td>File saved as .txt not .html</td><td>File → Save As → change extension to .html</td></tr>
+      <tr><td>CSS not working</td><td>Typo in property name or missing semicolon</td><td>Check the DevTools console for red errors</td></tr>
+      <tr><td>Closing tag missing</td><td>Forgot &lt;/div&gt; or &lt;/p&gt;</td><td>VS Code highlights unmatched tags — look for red squiggles</td></tr>
+      <tr><td>Colour not changing</td><td>Wrong CSS selector (used #id instead of .class)</td><td>Open DevTools and inspect the element — check which rule is applied</td></tr>
+      <tr><td>Image not showing</td><td>Wrong file path</td><td>Make sure the image is in the same folder as the HTML file</td></tr>
+    </table>
+  </div>
+
+  <!-- CHALLENGE HINTS -->
+  <div class="section-card">
+    <h2>Challenge hints (if she gets stuck)</h2>
+    <div class="two">
+      <div>
+        <h3>Change background colour</h3>
+        <div class="code"><span class="at">body</span> { <span class="kw">background-color</span>: <span class="val">pink</span>; }</div>
+      </div>
+      <div>
+        <h3>Add a border to card</h3>
+        <div class="code"><span class="at">.card</span> { <span class="kw">border</span>: <span class="val">2px solid blue</span>; }</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WRAP UP PROMPTS -->
+  <div class="section-card">
+    <h2>Wrap-up questions to ask her</h2>
+    <ul class="checklist">
+      <li>"What's the difference between &lt;head&gt; and &lt;body&gt;?"</li>
+      <li>"Can you explain what padding does in your own words?"</li>
+      <li>"How would you add a second card to the page?"</li>
+      <li>"What happens if you remove the .card class from a div?"</li>
+    </ul>
+  </div>
+
+</div>
+
+<!-- ===================== LESSON 2 ===================== -->
+<div class="lesson" id="l2">
+
+  <div class="lesson-header">
+    <h1>Lesson 2 — JavaScript Basics</h1>
+    <p>Student adds interactivity to their About Me page using JS variables, functions, DOM, and if/else.</p>
+    <div class="meta">
+      <span>Duration: ~30 min</span>
+      <span>Level: Beginner JS</span>
+      <span>File: aboutme.html (continued)</span>
+      <span>Prerequisite: Lesson 1 done</span>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h2>Learning objectives</h2>
+    <ul class="checklist">
+      <li>Declare variables using let and const</li>
+      <li>Know the 3 main data types: String, Number, Boolean</li>
+      <li>Write and call a function</li>
+      <li>Use document.getElementById() to find an HTML element</li>
+      <li>Use innerHTML to change page content</li>
+      <li>Write a basic if/else statement</li>
+    </ul>
+  </div>
+
+  <div class="section-card">
+    <h2>Lesson timing</h2>
+    <div class="timing-row">
+      <div class="timing-block" style="background:#faeeda;color:#633806;">0–5 min<br><strong>Intro JS</strong></div>
+      <div class="timing-block" style="background:#faeeda;color:#633806;">5–10 min<br><strong>Variables</strong></div>
+      <div class="timing-block" style="background:#faeeda;color:#633806;">10–17 min<br><strong>Functions</strong></div>
+      <div class="timing-block" style="background:#faece7;color:#712b13;">17–24 min<br><strong>DOM + input</strong></div>
+      <div class="timing-block" style="background:#f0eeff;color:#3a2a99;">24–30 min<br><strong>Challenge</strong></div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h2>Teaching notes — slide by slide</h2>
+
+    <h3>Slide 3 — Variables</h3>
+    <div class="alert alert-info">Start by opening Chrome DevTools (F12 → Console tab) and typing <code>let name = "Sarah"</code> then <code>console.log(name)</code>. The console is a great sandbox — no file saving needed to experiment.</div>
+    <div class="alert alert-warn">Students often use <code>var</code> from older tutorials online. Gently redirect to <code>let</code> and <code>const</code> and explain why they're better.</div>
+
+    <h3>Slide 4 — Functions</h3>
+    <p style="font-size:13px;color:#555;margin-top:6px;">Analogy: a function is like a vending machine — you press a button (call the function), it does something, and gives you back a result.</p>
+    <div class="alert alert-tip">Have her write the function first with just a <code>console.log</code> inside, then call it. Don't go straight to DOM manipulation — build confidence step by step.</div>
+
+    <h3>Slide 5 — Connecting JS to HTML</h3>
+    <div class="alert alert-warn">Remind her: the &lt;script&gt; tag must go at the BOTTOM of &lt;body&gt;, not in &lt;head&gt;. If it's in &lt;head&gt;, the DOM isn't loaded yet and getElementById will return null.</div>
+
+    <h3>Slide 6 — DOM</h3>
+    <p style="font-size:13px;color:#555;margin-top:6px;">Good demo: open any website, right-click → Inspect → click an element. Then in the console type <code>document.getElementById("something").innerHTML = "I changed this!"</code>. Very impressive moment!</p>
+
+    <h3>Slide 7 — if/else</h3>
+    <div class="alert alert-tip">Remind her about <code>parseInt()</code> — input fields always return strings. <code>17 > 18</code> works but <code>"17" > "18"</code> compares alphabetically, which can give wrong results.</div>
+  </div>
+
+  <div class="section-card">
+    <h2>Common errors to watch for</h2>
+    <table>
+      <tr><th>Error</th><th>Likely cause</th><th>How to fix</th></tr>
+      <tr><td>getElementById returns null</td><td>&lt;script&gt; is in &lt;head&gt; — DOM not ready yet</td><td>Move &lt;script&gt; to bottom of &lt;body&gt;</td></tr>
+      <tr><td>Function not defined</td><td>Typo in function name, or onclick name doesn't match</td><td>Check spelling exactly — JS is case sensitive</td></tr>
+      <tr><td>if/else giving wrong result</td><td>Used = instead of === for comparison</td><td>= assigns, === compares. Always use === in conditions</td></tr>
+      <tr><td>NaN errors</td><td>Forgot parseInt() when doing maths with input values</td><td>Wrap input.value in parseInt() or parseFloat()</td></tr>
+      <tr><td>Nothing happens on click</td><td>onclick attribute missing or misspelled</td><td>Check the HTML button tag has onclick="functionName()"</td></tr>
+    </table>
+  </div>
+
+  <div class="section-card">
+    <h2>Key concepts to reinforce</h2>
+    <div class="two">
+      <div>
+        <h3>The DOM update pattern</h3>
+        <div class="code">
+          <span class="cm">// 1. Find the element</span><br>
+          <span class="kw">let</span> el = document.<span class="cd">getElementById</span>(<span class="st">"myId"</span>);<br>
+          <span class="cm">// 2. Change it</span><br>
+          el.innerHTML = <span class="st">"New text"</span>;<br>
+          el.style.color = <span class="st">"red"</span>;
+        </div>
+      </div>
+      <div>
+        <h3>if/else template</h3>
+        <div class="code">
+          <span class="kw">if</span> (condition) {<br>
+          &nbsp;&nbsp;<span class="cm">// runs if TRUE</span><br>
+          } <span class="kw">else</span> {<br>
+          &nbsp;&nbsp;<span class="cm">// runs if FALSE</span><br>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h2>Wrap-up questions to ask her</h2>
+    <ul class="checklist">
+      <li>"What's the difference between let and const?"</li>
+      <li>"Why do we use parseInt() when reading from an input?"</li>
+      <li>"What does innerHTML do?"</li>
+      <li>"Can you add a button that changes the heading colour to green?"</li>
+    </ul>
+  </div>
+
+</div>
+
+<!-- ===================== LESSON 3 ===================== -->
+<div class="lesson" id="l3">
+
+  <div class="lesson-header">
+    <h1>Lesson 3 — CSS Layouts &amp; Flexbox</h1>
+    <p>Student learns the box model, CSS classes, and Flexbox to build a navbar, cards, and real page layouts.</p>
+    <div class="meta">
+      <span>Duration: ~30 min</span>
+      <span>Level: Intermediate CSS</span>
+      <span>File: layouts.html (new file)</span>
+      <span>Prerequisite: Lessons 1 &amp; 2 done</span>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h2>Learning objectives</h2>
+    <ul class="checklist">
+      <li>Explain the 4 layers of the CSS box model (content, padding, border, margin)</li>
+      <li>Write and apply a CSS class vs ID correctly</li>
+      <li>Turn on Flexbox with display: flex</li>
+      <li>Use justify-content and align-items to position elements</li>
+      <li>Build a working navbar using Flexbox</li>
+      <li>Arrange cards in a row with gap and flex-wrap</li>
+    </ul>
+  </div>
+
+  <div class="section-card">
+    <h2>Lesson timing</h2>
+    <div class="timing-row">
+      <div class="timing-block" style="background:#d5f5e3;color:#1a6b3a;">0–6 min<br><strong>Box model</strong></div>
+      <div class="timing-block" style="background:#d5f5e3;color:#1a6b3a;">6–12 min<br><strong>CSS classes</strong></div>
+      <div class="timing-block" style="background:#e6f1fb;color:#0c447c;">12–20 min<br><strong>Flexbox</strong></div>
+      <div class="timing-block" style="background:#e6f1fb;color:#0c447c;">20–27 min<br><strong>Navbar + cards</strong></div>
+      <div class="timing-block" style="background:#f0eeff;color:#3a2a99;">27–30 min<br><strong>Challenge</strong></div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h2>Teaching notes — slide by slide</h2>
+
+    <h3>Slide 3 — Box model</h3>
+    <div class="alert alert-tip">Open any webpage, right-click any element → Inspect. In DevTools, hover over an element — Chrome draws the box model visually (blue = content, green = padding, orange = margin). This is much more memorable than a diagram.</div>
+    <div class="alert alert-info">Key insight: <code>box-sizing: border-box</code> makes width include padding and border — always use it at the top of every CSS file with <code>* { box-sizing: border-box; }</code>.</div>
+
+    <h3>Slide 4 — CSS classes vs IDs</h3>
+    <p style="font-size:13px;color:#555;margin-top:6px;">Rule of thumb: use classes for styling (reusable), use IDs for JavaScript targeting (unique). Avoid styling with IDs as it causes specificity headaches.</p>
+    <div class="alert alert-warn">Common confusion: forgetting the dot (.) before class names in CSS. In HTML it's <code>class="card"</code>, in CSS it's <code>.card { }</code>.</div>
+
+    <h3>Slide 5 — Flexbox</h3>
+    <div class="alert alert-tip">The best Flexbox teaching tool is <strong>Flexbox Froggy</strong> (flexboxfroggy.com) — mention it as homework. Very fun and free.</div>
+    <p style="font-size:13px;color:#555;margin-top:6px;">Live demo: add <code>display: flex</code> to a container in DevTools and watch the children rearrange instantly.</p>
+    <div class="alert alert-info">Remember: Flexbox affects the CHILDREN of the container, not the container itself. Students sometimes add display:flex to the wrong element.</div>
+
+    <h3>Slide 6 — Navbar</h3>
+    <p style="font-size:13px;color:#555;margin-top:6px;">Build this together live. Start with just two divs inside the navbar, then add Flexbox step by step. Let her see each property change the layout before adding the next.</p>
+
+    <h3>Slide 7 — Profile card</h3>
+    <div class="alert alert-tip">The <code>border-radius: 50%</code> trick for circles is always a crowd-pleaser. Let her change the avatar colour and initials to personalise it.</div>
+  </div>
+
+  <div class="section-card">
+    <h2>Common errors to watch for</h2>
+    <table>
+      <tr><th>Error</th><th>Likely cause</th><th>How to fix</th></tr>
+      <tr><td>Flexbox not working</td><td>display:flex added to child, not container</td><td>Add display:flex to the PARENT element</td></tr>
+      <tr><td>Cards stacking vertically</td><td>flex-direction defaults to column if set wrong</td><td>Add flex-direction: row (or remove it — row is the default)</td></tr>
+      <tr><td>Card overflows container</td><td>No flex-wrap set</td><td>Add flex-wrap: wrap to the container</td></tr>
+      <tr><td>Width not matching expectation</td><td>Missing box-sizing: border-box</td><td>Add * { box-sizing: border-box; } at top of CSS</td></tr>
+      <tr><td>Gap not working</td><td>Old browser — gap in flexbox needs Chrome 84+</td><td>Use margin-right on children as fallback</td></tr>
+    </table>
+  </div>
+
+  <div class="section-card">
+    <h2>Flexbox cheat sheet (to refer to)</h2>
+    <table>
+      <tr><th>Property</th><th>Common values</th><th>What it does</th></tr>
+      <tr><td>display</td><td>flex</td><td>Turns on Flexbox for the container</td></tr>
+      <tr><td>flex-direction</td><td>row / column</td><td>Horizontal or vertical layout</td></tr>
+      <tr><td>justify-content</td><td>flex-start / center / space-between / space-around</td><td>Horizontal spacing of children</td></tr>
+      <tr><td>align-items</td><td>flex-start / center / flex-end / stretch</td><td>Vertical alignment of children</td></tr>
+      <tr><td>gap</td><td>16px / 1rem</td><td>Space between children</td></tr>
+      <tr><td>flex-wrap</td><td>wrap / nowrap</td><td>Allow children to wrap to next line</td></tr>
+      <tr><td>flex</td><td>1 / 2 / auto</td><td>How much a child grows to fill space</td></tr>
+    </table>
+  </div>
+
+  <div class="section-card">
+    <h2>Wrap-up questions to ask her</h2>
+    <ul class="checklist">
+      <li>"What property turns on Flexbox?"</li>
+      <li>"What's the difference between justify-content and align-items?"</li>
+      <li>"How do you make an image circular with CSS?"</li>
+      <li>"What does flex-wrap: wrap do?"</li>
+    </ul>
+  </div>
+
+</div>
+
+<!-- ===================== LESSON 4 ===================== -->
+<div class="lesson" id="l4">
+
+  <div class="lesson-header">
+    <h1>Lesson 4 — JS Arrays, Loops &amp; Events</h1>
+    <p>Student builds a complete To-Do List app using arrays, loops, event listeners, and the DOM.</p>
+    <div class="meta">
+      <span>Duration: ~30 min</span>
+      <span>Level: Intermediate JS</span>
+      <span>File: todo.html (new file)</span>
+      <span>Prerequisite: Lessons 1–3 done</span>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h2>Learning objectives</h2>
+    <ul class="checklist">
+      <li>Create an array and access items by index</li>
+      <li>Add items to an array with push() and remove with splice()</li>
+      <li>Loop through an array using forEach</li>
+      <li>Use addEventListener instead of inline onclick</li>
+      <li>Build and render HTML dynamically from an array</li>
+      <li>Understand why arrays start at index 0</li>
+    </ul>
+  </div>
+
+  <div class="section-card">
+    <h2>Lesson timing</h2>
+    <div class="timing-row">
+      <div class="timing-block" style="background:#faeeda;color:#633806;">0–6 min<br><strong>Arrays</strong></div>
+      <div class="timing-block" style="background:#faeeda;color:#633806;">6–13 min<br><strong>Loops</strong></div>
+      <div class="timing-block" style="background:#faece7;color:#712b13;">13–20 min<br><strong>Events</strong></div>
+      <div class="timing-block" style="background:#faece7;color:#712b13;">20–28 min<br><strong>Build app</strong></div>
+      <div class="timing-block" style="background:#f0eeff;color:#3a2a99;">28–30 min<br><strong>Challenge</strong></div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h2>Teaching notes — slide by slide</h2>
+
+    <h3>Slide 3 — Arrays</h3>
+    <div class="alert alert-tip">Start in the DevTools console: type <code>let fruits = ["Apple", "Mango", "Durian"]</code> and then <code>fruits[0]</code>. Let her guess what <code>fruits[2]</code> returns before you run it.</div>
+    <div class="alert alert-warn">The index-0 concept trips up EVERY beginner. Take time here. Ask her: "If there are 3 items, what is the last index?" (Answer: 2, not 3). Reinforce this with <code>fruits.length - 1</code>.</div>
+
+    <h3>Slide 4 — Loops</h3>
+    <p style="font-size:13px;color:#555;margin-top:6px;">Teach <code>forEach</code> first — it reads naturally in English. Only introduce the classic <code>for</code> loop if she wants to know how it works under the hood.</p>
+    <div class="alert alert-info">Analogy for forEach: "For each item in my shopping list, print it out." Reading code like a sentence helps beginners understand the pattern.</div>
+
+    <h3>Slide 5 — Event listeners</h3>
+    <div class="alert alert-tip">Explain why addEventListener is better than onclick in HTML: it keeps your JS and HTML separate (separation of concerns). This is how professional code is written.</div>
+    <p style="font-size:13px;color:#555;margin-top:6px;">Live demo: add a click listener in DevTools console: <code>document.querySelector("h1").addEventListener("click", function() { alert("clicked!") })</code>. Very impressive.</p>
+
+    <h3>Slides 6 &amp; 7 — To-do app</h3>
+    <div class="alert alert-warn">Build this step by step — don't show the finished code. Start with: (1) array + console.log, (2) render list to page, (3) add input + button, (4) delete. Each step should work before moving to the next.</div>
+    <div class="alert alert-tip">The <code>render()</code> function pattern (clear and redraw everything) is a fundamental concept in web development. Highlight it: "This is how React works too — state changes, then re-render."</div>
+  </div>
+
+  <div class="section-card">
+    <h2>Common errors to watch for</h2>
+    <table>
+      <tr><th>Error</th><th>Likely cause</th><th>How to fix</th></tr>
+      <tr><td>Array item undefined</td><td>Accessed index out of bounds (e.g. fruits[5] in a 3-item array)</td><td>Check array.length before accessing</td></tr>
+      <tr><td>forEach not working</td><td>Typo — it's forEach not foreach (case sensitive)</td><td>JS is case sensitive — check exact spelling</td></tr>
+      <tr><td>Event fires immediately</td><td>Written onclick="addTask()" vs addEventListener("click", addTask)</td><td>With addEventListener, don't include () after the function name</td></tr>
+      <tr><td>Items duplicating</td><td>Forgot to clear innerHTML before re-rendering</td><td>Add ul.innerHTML = "" at the top of render()</td></tr>
+      <tr><td>Delete deletes wrong item</td><td>Index is wrong after array mutates</td><td>Use filter() by id — safer than splice() by index</td></tr>
+    </table>
+  </div>
+
+  <div class="section-card">
+    <h2>Key patterns to reinforce</h2>
+    <div class="two">
+      <div>
+        <h3>Add to array + re-render</h3>
+        <div class="code">
+          tasks.<span class="cd">push</span>(newTask);<br>
+          <span class="cd">render</span>(); <span class="cm">// always re-render after change</span>
+        </div>
+        <h3>Remove from array</h3>
+        <div class="code">
+          tasks = tasks.<span class="cd">filter</span>(<span class="kw">function</span>(t) {<br>
+          &nbsp;&nbsp;<span class="kw">return</span> t.id !== idToDelete;<br>
+          });<br>
+          <span class="cd">render</span>();
+        </div>
+      </div>
+      <div>
+        <h3>Build HTML from array</h3>
+        <div class="code">
+          <span class="kw">let</span> html = <span class="st">""</span>;<br>
+          tasks.<span class="cd">forEach</span>(<span class="kw">function</span>(t) {<br>
+          &nbsp;&nbsp;html += <span class="st">"&lt;li&gt;"</span> + t.text + <span class="st">"&lt;/li&gt;"</span>;<br>
+          });<br>
+          list.innerHTML = html;
+        </div>
+        <h3>Enter key event</h3>
+        <div class="code">
+          input.<span class="cd">addEventListener</span>(<span class="st">"keydown"</span>, <span class="kw">function</span>(e) {<br>
+          &nbsp;&nbsp;<span class="kw">if</span> (e.key === <span class="st">"Enter"</span>) <span class="cd">addTask</span>();<br>
+          });
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h2>Wrap-up questions to ask her</h2>
+    <ul class="checklist">
+      <li>"What index does an array start at, and why?"</li>
+      <li>"What does push() do? What does filter() do?"</li>
+      <li>"Why do we call render() after every change?"</li>
+      <li>"What's the difference between addEventListener and onclick?"</li>
+      <li>"How would you add a 'priority' field to each task object?"</li>
+    </ul>
+  </div>
+
+  <div class="section-card">
+    <h2>Where to go next (Lesson 5 ideas)</h2>
+    <ul class="checklist">
+      <li>localStorage — save the to-do list so it survives page refresh</li>
+      <li>HTML forms — form validation and submit event</li>
+      <li>Fetch API — call a real API (e.g. weather or random joke)</li>
+      <li>CSS animations — transitions and keyframes to make the app feel alive</li>
+      <li>Final project — build a complete personal portfolio website</li>
+    </ul>
+  </div>
+
+</div>
+
+<script>
+function show(n) {
+  document.querySelectorAll('.lesson').forEach(function(l) { l.classList.remove('on'); });
+  document.querySelectorAll('.topnav button').forEach(function(b) { b.classList.remove('on'); });
+  document.getElementById('l' + n).classList.add('on');
+  document.querySelectorAll('.topnav button')[n - 1].classList.add('on');
+  window.scrollTo(0, 0);
+}
+</script>
+
+</body>
+</html>

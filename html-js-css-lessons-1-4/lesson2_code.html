@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lesson 2 – JavaScript Basics</title>
+  <style>
+    /* ================================
+       LESSON 2: JAVASCRIPT BASICS
+    ================================ */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f4f8;
+      margin: 0;
+      padding: 40px 20px;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      padding: 24px;
+      max-width: 500px;
+      margin: 20px auto;
+    }
+    h1 { color: #2a5fa5; text-align: center; }
+    h2 { color: #444; margin-top: 0; }
+    p  { color: #555; font-size: 15px; line-height: 1.7; }
+
+    input[type="text"] {
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 15px;
+      width: 100%;
+      margin: 8px 0;
+      box-sizing: border-box;
+    }
+    button {
+      background: #2a5fa5;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-size: 15px;
+      cursor: pointer;
+      margin: 6px 4px 6px 0;
+    }
+    button:hover { background: #1e4a87; }
+    button.danger { background: #c0392b; }
+    button.danger:hover { background: #96281b; }
+
+    #greeting {
+      font-size: 20px;
+      font-weight: bold;
+      color: #2a5fa5;
+      margin: 12px 0;
+      min-height: 28px;
+    }
+    #counter-display {
+      font-size: 48px;
+      font-weight: bold;
+      text-align: center;
+      color: #2a5fa5;
+      margin: 10px 0;
+    }
+    .section { margin-top: 16px; border-top: 1px solid #eee; padding-top: 16px; }
+    .hint { font-size: 12px; color: #999; font-style: italic; margin-top: 8px; }
+  </style>
+</head>
+<body>
+
+  <h1>JavaScript Playground</h1>
+
+  <!-- ================================
+       SECTION 1: Variables + DOM
+  ================================ -->
+  <div class="card">
+    <h2>1. Greet me by name</h2>
+    <p>Type your name and click the button — JavaScript will update the page!</p>
+    <input type="text" id="nameInput" placeholder="Enter your name...">
+    <button onclick="greetUser()">Say Hello!</button>
+    <button class="danger" onclick="resetGreeting()">Reset</button>
+    <div id="greeting">Hello! Enter your name above.</div>
+    <p class="hint">Look at greetUser() in the script below to see how it works.</p>
+  </div>
+
+  <!-- ================================
+       SECTION 2: if / else
+  ================================ -->
+  <div class="card">
+    <h2>2. Age checker</h2>
+    <p>Enter an age and JavaScript will decide if you're an adult or a minor.</p>
+    <input type="text" id="ageInput" placeholder="Enter an age (e.g. 17)">
+    <button onclick="checkAge()">Check Age</button>
+    <div id="ageResult" style="margin-top:10px;font-size:15px;color:#555;"></div>
+  </div>
+
+  <!-- ================================
+       SECTION 3: Functions + Counter
+  ================================ -->
+  <div class="card">
+    <h2>3. Click counter</h2>
+    <p>How fast can you click? JavaScript remembers how many times you've clicked.</p>
+    <div id="counter-display">0</div>
+    <div style="text-align:center;">
+      <button onclick="increment()">Click me! +1</button>
+      <button class="danger" onclick="resetCounter()">Reset</button>
+    </div>
+  </div>
+
+  <!-- ================================
+       SECTION 4: Change CSS with JS
+  ================================ -->
+  <div class="card">
+    <h2>4. Change page style</h2>
+    <p>JavaScript can change CSS too — click to change the page background!</p>
+    <button onclick="changeColor('#ffeaa7')">Yellow</button>
+    <button onclick="changeColor('#dfe6e9')">Grey</button>
+    <button onclick="changeColor('#d5f5e3')">Green</button>
+    <button onclick="changeColor('#f0f4f8')">Reset</button>
+  </div>
+
+  <!-- ================================
+       JAVASCRIPT
+  ================================ -->
+  <script>
+
+    /* ---- Section 1: Variables and DOM ---- */
+    function greetUser() {
+      // Get what the user typed
+      let name = document.getElementById("nameInput").value;
+
+      // if/else to check if they entered something
+      if (name === "") {
+        alert("Please enter your name first!");
+      } else {
+        // Update the page using innerHTML
+        document.getElementById("greeting").innerHTML =
+          "Hello, <strong>" + name + "</strong>! Welcome to JavaScript!";
+      }
+    }
+
+    function resetGreeting() {
+      document.getElementById("greeting").innerHTML =
+        "Hello! Enter your name above.";
+      document.getElementById("nameInput").value = "";
+    }
+
+    /* ---- Section 2: if / else ---- */
+    function checkAge() {
+      // parseInt converts text to a number
+      let age = parseInt(document.getElementById("ageInput").value);
+      let result = document.getElementById("ageResult");
+
+      if (isNaN(age)) {
+        result.innerHTML = "Please enter a valid number.";
+        result.style.color = "#c0392b";
+      } else if (age >= 18) {
+        result.innerHTML = "You are " + age + " years old. You are an ADULT!";
+        result.style.color = "#27ae60";
+      } else {
+        result.innerHTML = "You are " + age + " years old. You are a MINOR.";
+        result.style.color = "#e67e22";
+      }
+    }
+
+    /* ---- Section 3: Counter ---- */
+    let count = 0; // variable outside function — remembers the value!
+
+    function increment() {
+      count = count + 1; // add 1 each time
+      document.getElementById("counter-display").innerHTML = count;
+    }
+
+    function resetCounter() {
+      count = 0;
+      document.getElementById("counter-display").innerHTML = count;
+    }
+
+    /* ---- Section 4: Change CSS with JS ---- */
+    function changeColor(color) {
+      document.body.style.backgroundColor = color;
+    }
+
+  </script>
+
+  <!--
+    CHALLENGE: Try these yourself!
+    1. Add a button that changes the greeting text colour to red
+    2. Make the counter go DOWN by 1 with a minus button
+    3. Show an alert if the counter reaches 10
+    4. Add a button that changes the font size of the greeting
+  -->
+
+</body>
+</html>

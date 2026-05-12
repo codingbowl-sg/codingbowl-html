@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lesson 4 – To-Do List App</title>
+  <style>
+    /* ================================
+       LESSON 4: ARRAYS, LOOPS, EVENTS
+       A complete To-Do List App
+    ================================ */
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f4f8;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      color: #2a5fa5;
+      text-align: center;
+      margin-bottom: 4px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 30px;
+    }
+
+    .app {
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    /* ================================
+       INPUT ROW
+    ================================ */
+    .input-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 10px 14px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    input[type="text"]:focus {
+      border-color: #2a5fa5;
+    }
+
+    .btn-add {
+      background: #2a5fa5;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 15px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .btn-add:hover { background: #1e4a87; }
+
+    .hint {
+      font-size: 12px;
+      color: #aaa;
+      margin-bottom: 20px;
+    }
+
+    /* ================================
+       STATS ROW
+    ================================ */
+    .stats-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .stat-card {
+      flex: 1;
+      background: white;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 26px;
+      font-weight: bold;
+      color: #2a5fa5;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: #888;
+      margin-top: 2px;
+    }
+
+    /* ================================
+       FILTER TABS
+    ================================ */
+    .filter-row {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .filter-btn {
+      padding: 6px 16px;
+      border: 1px solid #ddd;
+      border-radius: 20px;
+      background: white;
+      color: #555;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .filter-btn.active {
+      background: #2a5fa5;
+      color: white;
+      border-color: #2a5fa5;
+    }
+
+    /* ================================
+       TASK LIST
+    ================================ */
+    .task-list {
+      background: white;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      overflow: hidden;
+    }
+
+    .task-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid #f0f0f0;
+      transition: background 0.15s;
+    }
+
+    .task-item:last-child { border-bottom: none; }
+    .task-item:hover { background: #f9fbff; }
+
+    .task-item.done .task-text {
+      text-decoration: line-through;
+      color: #bbb;
+    }
+
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: #2a5fa5;
+    }
+
+    .task-text {
+      flex: 1;
+      font-size: 15px;
+      color: #333;
+      cursor: pointer;
+    }
+
+    .task-tag {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      background: #e6f1fb;
+      color: #0c447c;
+    }
+
+    .btn-delete {
+      background: none;
+      border: none;
+      color: #ccc;
+      font-size: 18px;
+      cursor: pointer;
+      padding: 0 4px;
+      line-height: 1;
+    }
+
+    .btn-delete:hover { color: #e74c3c; }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #bbb;
+      font-size: 15px;
+    }
+
+    /* ================================
+       CLEAR COMPLETED
+    ================================ */
+    .bottom-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+      font-size: 13px;
+      color: #888;
+    }
+
+    .btn-clear {
+      background: none;
+      border: none;
+      color: #e74c3c;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .btn-clear:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <h1>My To-Do List</h1>
+  <p class="subtitle">Built with JavaScript — arrays, loops &amp; events</p>
+
+  <div class="app">
+
+    <!-- INPUT -->
+    <div class="input-row">
+      <input type="text" id="taskInput" placeholder="Add a new task...">
+      <button class="btn-add" id="addBtn">Add Task</button>
+    </div>
+    <p class="hint">Tip: Press Enter to add a task quickly!</p>
+
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-number" id="totalCount">0</div>
+        <div class="stat-label">Total</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="doneCount">0</div>
+        <div class="stat-label">Done</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="leftCount">0</div>
+        <div class="stat-label">Remaining</div>
+      </div>
+    </div>
+
+    <!-- FILTER -->
+    <div class="filter-row">
+      <button class="filter-btn active" onclick="setFilter('all')">All</button>
+      <button class="filter-btn" onclick="setFilter('active')">Active</button>
+      <button class="filter-btn" onclick="setFilter('done')">Done</button>
+    </div>
+
+    <!-- TASK LIST -->
+    <div class="task-list" id="taskList"></div>
+
+    <!-- BOTTOM ROW -->
+    <div class="bottom-row">
+      <span id="summaryText"></span>
+      <button class="btn-clear" onclick="clearDone()">Clear completed</button>
+    </div>
+
+  </div>
+
+  <script>
+    /* ================================
+       DATA — our tasks array
+    ================================ */
+    let tasks = [
+      { id: 1, text: "Finish HTML assignment", done: false },
+      { id: 2, text: "Practice CSS Flexbox",   done: true  },
+      { id: 3, text: "Study for JS quiz",       done: false }
+    ];
+
+    let currentFilter = "all"; // "all", "active", or "done"
+    let nextId = 4;
+
+    /* ================================
+       ADD A TASK
+    ================================ */
+    function addTask() {
+      let input = document.getElementById("taskInput");
+      let text  = input.value.trim(); // .trim() removes extra spaces
+
+      if (text === "") {
+        alert("Please enter a task first!");
+        return;
+      }
+
+      // Create a new task object and push it into the array
+      tasks.push({ id: nextId++, text: text, done: false });
+      input.value = ""; // clear the input box
+      input.focus();    // put cursor back in the box
+      render();         // update the screen
+    }
+
+    /* ================================
+       TOGGLE DONE / NOT DONE
+    ================================ */
+    function toggleTask(id) {
+      // Loop through the array to find the task with this id
+      tasks.forEach(function(task) {
+        if (task.id === id) {
+          task.done = !task.done; // flip true to false or false to true
+        }
+      });
+      render();
+    }
+
+    /* ================================
+       DELETE A TASK
+    ================================ */
+    function deleteTask(id) {
+      // filter() returns a NEW array without the deleted task
+      tasks = tasks.filter(function(task) {
+        return task.id !== id;
+      });
+      render();
+    }
+
+    /* ================================
+       CLEAR ALL COMPLETED TASKS
+    ================================ */
+    function clearDone() {
+      tasks = tasks.filter(function(task) {
+        return task.done === false;
+      });
+      render();
+    }
+
+    /* ================================
+       SET FILTER
+    ================================ */
+    function setFilter(filter) {
+      currentFilter = filter;
+
+      // Update which filter button looks active
+      document.querySelectorAll(".filter-btn").forEach(function(btn) {
+        btn.classList.remove("active");
+      });
+      event.target.classList.add("active");
+
+      render();
+    }
+
+    /* ================================
+       RENDER — rebuild the task list
+       This runs every time something changes
+    ================================ */
+    function render() {
+      let list = document.getElementById("taskList");
+
+      // Filter tasks based on current filter
+      let visible = tasks.filter(function(task) {
+        if (currentFilter === "active") return task.done === false;
+        if (currentFilter === "done")   return task.done === true;
+        return true; // "all" — show everything
+      });
+
+      // If no tasks to show
+      if (visible.length === 0) {
+        list.innerHTML = '<div class="empty-state">No tasks here!</div>';
+      } else {
+        // Build HTML for each task using a loop
+        let html = "";
+        visible.forEach(function(task) {
+          html += '<div class="task-item ' + (task.done ? "done" : "") + '">';
+          html += '  <input type="checkbox" ' + (task.done ? "checked" : "") +
+                       ' onchange="toggleTask(' + task.id + ')">';
+          html += '  <span class="task-text" onclick="toggleTask(' + task.id + ')">' +
+                       task.text + '</span>';
+          html += '  <button class="btn-delete" onclick="deleteTask(' + task.id + ')">&#x2715;</button>';
+          html += '</div>';
+        });
+        list.innerHTML = html;
+      }
+
+      // Update stats
+      let total = tasks.length;
+      let done  = tasks.filter(t => t.done).length;
+      let left  = total - done;
+
+      document.getElementById("totalCount").textContent = total;
+      document.getElementById("doneCount").textContent  = done;
+      document.getElementById("leftCount").textContent  = left;
+      document.getElementById("summaryText").textContent =
+        left + " task" + (left !== 1 ? "s" : "") + " remaining";
+    }
+
+    /* ================================
+       EVENT LISTENERS
+    ================================ */
+
+    // Add button click
+    document.getElementById("addBtn")
+      .addEventListener("click", addTask);
+
+    // Press Enter key to add task
+    document.getElementById("taskInput")
+      .addEventListener("keydown", function(e) {
+        if (e.key === "Enter") {
+          addTask();
+        }
+      });
+
+    /* ================================
+       INITIAL RENDER
+    ================================ */
+    render();
+
+  </script>
+
+  <!--
+    CHALLENGE: Try these yourself!
+    1. Add a "priority" tag to each task (high / low)
+    2. Sort tasks so incomplete ones appear first
+    3. Save tasks using localStorage so they survive a page refresh
+    4. Add a due date input for each task
+    5. Show a congratulations message when all tasks are done!
+  -->
+
+</body>
+</html>

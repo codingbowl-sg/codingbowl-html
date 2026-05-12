@@ -1,0 +1,871 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+.ltabs{display:flex;gap:5px;margin-bottom:.7rem;flex-wrap:wrap;}
+.ltab{font-size:12px;padding:5px 13px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-secondary);cursor:pointer;}
+.ltab.on{background:var(--color-background-secondary);color:var(--color-text-primary);font-weight:500;}
+.deck{display:none;}.deck.on{display:block;}
+.stabs{display:flex;gap:4px;margin-bottom:.55rem;flex-wrap:wrap;}
+.stab{font-size:11px;padding:3px 7px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);background:var(--color-background-primary);color:var(--color-text-secondary);cursor:pointer;}
+.stab.on{background:var(--color-background-secondary);color:var(--color-text-primary);}
+.slide{display:none;min-height:360px;border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary);background:var(--color-background-primary);padding:1.5rem 1.9rem;position:relative;}
+.slide.on{display:flex;flex-direction:column;}
+.sn{position:absolute;top:.85rem;right:1.1rem;font-size:11px;color:var(--color-text-tertiary);}
+.tag{display:inline-block;font-size:11px;font-weight:500;padding:2px 9px;border-radius:20px;margin-bottom:9px;}
+.tb{background:#E6F1FB;color:#0C447C;}.tc{background:#EAF3DE;color:#27500A;}.tj{background:#FAEEDA;color:#633806;}.tg{background:#F1EFE8;color:#444441;}.tp{background:#EEEDFE;color:#3C3489;}.tco{background:#FAECE7;color:#712B13;}.tpi{background:#FBEAF0;color:#72243E;}.taq{background:#E1F5EE;color:#085041;}
+h2{font-size:18px;font-weight:500;color:var(--color-text-primary);margin-bottom:5px;line-height:1.3;}
+.sub{font-size:13px;color:var(--color-text-secondary);margin-bottom:.85rem;line-height:1.6;}
+.pts{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.pts li{display:flex;gap:8px;font-size:13px;line-height:1.5;color:var(--color-text-primary);}
+.dot{width:6px;height:6px;border-radius:50%;margin-top:7px;flex-shrink:0;}
+.db{background:#378ADD;}.dt{background:#1D9E75;}.da{background:#BA7517;}.dp{background:#7F77DD;}.dc{background:#D85A30;}.dg{background:#639922;}.dpi{background:#D4537E;}.dtq{background:#1D9E75;}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:11px;margin-top:6px;}
+.card{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:9px 11px;}
+.ct{font-size:11px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px;}
+.code{background:var(--color-background-tertiary);border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);padding:8px 12px;font-family:var(--font-mono);font-size:12px;line-height:1.8;color:var(--color-text-primary);margin:6px 0;overflow-x:auto;}
+.cm{color:var(--color-text-tertiary);}.kw{color:#7F77DD;}.st{color:#1D9E75;}.cd{color:#D85A30;}.at{color:#378ADD;}.tg2{color:#D85A30;}.val{color:#1D9E75;}
+.hl{border-radius:var(--border-radius-md);padding:7px 11px;border:0.5px solid var(--color-border-tertiary);margin-top:6px;}
+.hl-t{font-size:12px;font-weight:500;margin-bottom:2px;}.hl-d{font-size:12px;color:var(--color-text-secondary);line-height:1.5;}
+.big{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;text-align:center;gap:10px;}
+.preview{background:var(--color-background-secondary);border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);padding:8px 12px;}
+.step-row{display:flex;gap:0;margin:9px 0;}
+.step{flex:1;text-align:center;position:relative;}
+.sc{width:25px;height:25px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;margin:0 auto 5px;position:relative;z-index:1;}
+.sl{font-size:11px;color:var(--color-text-secondary);line-height:1.4;}.slt{color:var(--color-text-tertiary);font-size:10px;}
+.sline{position:absolute;top:12px;left:50%;width:100%;height:1px;background:var(--color-border-tertiary);z-index:0;}
+.step:last-child .sline{display:none;}
+.nav{display:flex;align-items:center;justify-content:space-between;margin-top:.6rem;}
+.pips{display:flex;gap:3px;flex-wrap:wrap;max-width:200px;}
+.pip{width:5px;height:5px;border-radius:50%;background:var(--color-border-secondary);}
+.pip.on{background:var(--color-text-secondary);}
+.nbts{display:flex;gap:5px;align-items:center;}
+.nbts button{font-size:12px;padding:4px 11px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);cursor:pointer;}
+.nbts button:hover{background:var(--color-background-secondary);}
+.nbts button:disabled{opacity:.3;cursor:default;}
+.tbadge{font-size:11px;color:var(--color-text-tertiary);}
+</style>
+
+<h2 class="sr-only" style="position:absolute;left:-9999px;">Student slide deck lessons 5 to 8: HTML forms, localStorage, fetch API, and final project</h2>
+
+<div class="ltabs">
+  <button class="ltab on" onclick="sw(1)">Lesson 5 — HTML Forms</button>
+  <button class="ltab" onclick="sw(2)">Lesson 6 — localStorage</button>
+  <button class="ltab" onclick="sw(3)">Lesson 7 — Fetch &amp; APIs</button>
+  <button class="ltab" onclick="sw(4)">Lesson 8 — Final Project</button>
+</div>
+
+<!-- ===== L5 ===== -->
+<div class="deck on" id="d1"><div class="stabs" id="st1"></div>
+
+<div class="slide on" id="1s0"><span class="sn">1/8</span><div class="big">
+  <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center;"><span class="tag tb">HTML</span><span class="tag tj">Forms</span><span class="tag tc">Validation</span></div>
+  <h2 style="font-size:20px;max-width:390px;">Getting input from users with HTML forms</h2>
+  <p class="sub" style="max-width:360px;">Forms are how every website collects data — sign-ups, logins, search bars. Let's build one from scratch!</p>
+</div></div>
+
+<div class="slide" id="1s1"><span class="sn">2/8</span>
+<span class="tag tg">Agenda</span><h2>What we'll cover today</h2>
+<div class="step-row">
+  <div class="step"><div class="sline"></div><div class="sc" style="background:#E6F1FB;color:#0C447C;">1</div><div class="sl">Form basics<div class="slt">5 min</div></div></div>
+  <div class="step"><div class="sline"></div><div class="sc" style="background:#E6F1FB;color:#0C447C;">2</div><div class="sl">Input types<div class="slt">6 min</div></div></div>
+  <div class="step"><div class="sline"></div><div class="sc" style="background:#FAEEDA;color:#633806;">3</div><div class="sl">JS validation<div class="slt">8 min</div></div></div>
+  <div class="step"><div class="sline"></div><div class="sc" style="background:#FAEEDA;color:#633806;">4</div><div class="sl">Error messages<div class="slt">7 min</div></div></div>
+  <div class="step"><div class="sc" style="background:#EEEDFE;color:#3C3489;">5</div><div class="sl">Challenge<div class="slt">4 min</div></div></div>
+</div>
+<ul class="pts" style="margin-top:8px;">
+  <li><span class="dot db"></span><span>The &lt;form&gt; element groups all your inputs together</span></li>
+  <li><span class="dot da"></span><span>HTML has many input types — text, email, password, number, checkbox...</span></li>
+  <li><span class="dot dp"></span><span>JS validation checks the data before it's submitted</span></li>
+</ul></div>
+
+<div class="slide" id="1s2"><span class="sn">3/8</span>
+<span class="tag tb">HTML</span><h2>The form element and input types</h2>
+<div class="two">
+<div class="code" style="margin:0;font-size:11px;">
+  <span class="tg2">&lt;form</span> <span class="at">id=</span><span class="val">"myForm"</span><span class="tg2">&gt;</span><br>
+  &nbsp;&nbsp;<span class="tg2">&lt;label&gt;</span>Name:<span class="tg2">&lt;/label&gt;</span><br>
+  &nbsp;&nbsp;<span class="tg2">&lt;input</span> <span class="at">type=</span><span class="val">"text"</span> <span class="at">id=</span><span class="val">"name"</span><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class="at">placeholder=</span><span class="val">"Your name"</span><span class="tg2">&gt;</span><br><br>
+  &nbsp;&nbsp;<span class="tg2">&lt;label&gt;</span>Email:<span class="tg2">&lt;/label&gt;</span><br>
+  &nbsp;&nbsp;<span class="tg2">&lt;input</span> <span class="at">type=</span><span class="val">"email"</span> <span class="at">id=</span><span class="val">"email"</span><span class="tg2">&gt;</span><br><br>
+  &nbsp;&nbsp;<span class="tg2">&lt;label&gt;</span>Password:<span class="tg2">&lt;/label&gt;</span><br>
+  &nbsp;&nbsp;<span class="tg2">&lt;input</span> <span class="at">type=</span><span class="val">"password"</span> <span class="at">id=</span><span class="val">"pw"</span><span class="tg2">&gt;</span><br><br>
+  &nbsp;&nbsp;<span class="tg2">&lt;button</span> <span class="at">type=</span><span class="val">"button"</span> <span class="at">onclick=</span><span class="val">"submit()"</span><span class="tg2">&gt;</span>Submit<span class="tg2">&lt;/button&gt;</span><br>
+  <span class="tg2">&lt;/form&gt;</span>
+</div>
+<div>
+  <div class="card"><div class="ct">Common input types</div>
+  <ul class="pts">
+    <li><span class="dot db"></span><span><code style="font-size:11px;">text</code> — plain text</span></li>
+    <li><span class="dot db"></span><span><code style="font-size:11px;">email</code> — validates email format</span></li>
+    <li><span class="dot db"></span><span><code style="font-size:11px;">password</code> — hides characters</span></li>
+    <li><span class="dot db"></span><span><code style="font-size:11px;">number</code> — numbers only</span></li>
+    <li><span class="dot db"></span><span><code style="font-size:11px;">checkbox</code> — tick box</span></li>
+    <li><span class="dot db"></span><span><code style="font-size:11px;">radio</code> — pick one option</span></li>
+    <li><span class="dot db"></span><span><code style="font-size:11px;">date</code> — date picker</span></li>
+  </ul></div>
+</div></div></div>
+
+<div class="slide" id="1s3"><span class="sn">4/8</span>
+<span class="tag tj">JavaScript</span><h2>Reading form values with JS</h2>
+<div class="two">
+<div class="code" style="margin:0;font-size:11px;">
+  <span class="kw">function</span> <span class="cd">submitForm</span>() {<br>
+  &nbsp;&nbsp;<span class="kw">let</span> name = document.<span class="cd">getElementById</span>(<span class="st">"name"</span>).value;<br>
+  &nbsp;&nbsp;<span class="kw">let</span> email = document.<span class="cd">getElementById</span>(<span class="st">"email"</span>).value;<br>
+  &nbsp;&nbsp;<span class="kw">let</span> pw = document.<span class="cd">getElementById</span>(<span class="st">"pw"</span>).value;<br><br>
+  &nbsp;&nbsp;<span class="cm">// .trim() removes spaces from start/end</span><br>
+  &nbsp;&nbsp;<span class="kw">if</span> (name.<span class="cd">trim</span>() === <span class="st">""</span>) {<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class="cd">alert</span>(<span class="st">"Please enter your name!"</span>);<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span>;<br>
+  &nbsp;&nbsp;}<br>
+  &nbsp;&nbsp;<span class="kw">if</span> (pw.length &lt; <span style="color:#BA7517;">6</span>) {<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class="cd">alert</span>(<span class="st">"Password must be 6+ chars"</span>);<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span>;<br>
+  &nbsp;&nbsp;}<br>
+  &nbsp;&nbsp;console.<span class="cd">log</span>(<span class="st">"Form submitted!"</span>, name, email);<br>
+  }
+</div>
+<div>
+  <div class="hl" style="background:#E6F1FB;border-color:#B5D4F4;margin:0;">
+    <div class="hl-t" style="color:#0C447C;">return stops the function</div>
+    <div class="hl-d">When validation fails, <code style="font-size:11px;">return</code> exits the function immediately — the rest doesn't run</div>
+  </div>
+  <div class="hl" style="background:#FAEEDA;border-color:#FAC775;margin-top:6px;">
+    <div class="hl-t" style="color:#633806;">.length counts characters</div>
+    <div class="hl-d"><code style="font-size:11px;">"hello".length</code> = 5. Use it to check if a password is long enough</div>
+  </div>
+</div></div></div>
+
+<div class="slide" id="1s4"><span class="sn">5/8</span>
+<span class="tag tj">JavaScript</span><h2>Showing error messages on the page</h2>
+<p class="sub">Instead of alerts, show errors next to the input — much better UX!</p>
+<div class="two">
+<div class="code" style="margin:0;font-size:11px;">
+  <span class="tg2">&lt;input</span> <span class="at">type=</span><span class="val">"text"</span> <span class="at">id=</span><span class="val">"name"</span><span class="tg2">&gt;</span><br>
+  <span class="tg2">&lt;p</span> <span class="at">id=</span><span class="val">"nameErr"</span> <span class="at">style=</span><span class="val">"color:red;font-size:12px;"</span><span class="tg2">&gt;&lt;/p&gt;</span><br><br>
+  <span class="cm">// JS validation</span><br>
+  <span class="kw">function</span> <span class="cd">validate</span>() {<br>
+  &nbsp;&nbsp;<span class="kw">let</span> name = document.<span class="cd">getElementById</span>(<span class="st">"name"</span>).value;<br>
+  &nbsp;&nbsp;<span class="kw">let</span> err = document.<span class="cd">getElementById</span>(<span class="st">"nameErr"</span>);<br><br>
+  &nbsp;&nbsp;<span class="kw">if</span> (name.<span class="cd">trim</span>() === <span class="st">""</span>) {<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;err.innerHTML = <span class="st">"Name is required!"</span>;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return false</span>;<br>
+  &nbsp;&nbsp;}<br>
+  &nbsp;&nbsp;err.innerHTML = <span class="st">""</span>; <span class="cm">// clear error</span><br>
+  &nbsp;&nbsp;<span class="kw">return true</span>;<br>
+  }
+</div>
+<div>
+  <div class="preview" style="margin:0;">
+    <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:4px;">Name</div>
+    <div style="border:1px solid #E24B4A;border-radius:5px;padding:6px 10px;font-size:12px;color:var(--color-text-tertiary);margin-bottom:3px;">Enter your name...</div>
+    <div style="color:#E24B4A;font-size:11px;">Name is required!</div>
+    <div style="margin-top:10px;font-size:12px;color:var(--color-text-secondary);margin-bottom:4px;">Email</div>
+    <div style="border:1px solid #27ae60;border-radius:5px;padding:6px 10px;font-size:12px;color:var(--color-text-primary);margin-bottom:3px;">sarah@gmail.com</div>
+    <div style="color:#27ae60;font-size:11px;">Looks good!</div>
+  </div>
+</div></div></div>
+
+<div class="slide" id="1s5"><span class="sn">6/8</span>
+<span class="tag tc">CSS</span><h2>Styling your form</h2>
+<div class="two">
+<div class="code" style="margin:0;font-size:11px;">
+  <span class="at">form</span> { <span class="kw">max-width</span>: <span class="val">400px</span>; <span class="kw">margin</span>: <span class="val">0 auto</span>; }<br><br>
+  <span class="at">label</span> { <span class="kw">display</span>: <span class="val">block</span>;<br>
+  &nbsp;&nbsp;<span class="kw">font-size</span>: <span class="val">14px</span>; <span class="kw">margin-bottom</span>: <span class="val">4px</span>; }<br><br>
+  <span class="at">input</span> { <span class="kw">display</span>: <span class="val">block</span>; <span class="kw">width</span>: <span class="val">100%</span>;<br>
+  &nbsp;&nbsp;<span class="kw">padding</span>: <span class="val">10px</span>; <span class="kw">border-radius</span>: <span class="val">6px</span>;<br>
+  &nbsp;&nbsp;<span class="kw">border</span>: <span class="val">1px solid #ddd</span>;<br>
+  &nbsp;&nbsp;<span class="kw">margin-bottom</span>: <span class="val">16px</span>; }<br><br>
+  <span class="at">input:focus</span> { <span class="kw">border-color</span>: <span class="val">#2a5fa5</span>;<br>
+  &nbsp;&nbsp;<span class="kw">outline</span>: <span class="val">none</span>; }<br><br>
+  <span class="at">.error</span> { <span class="kw">color</span>: <span class="val">red</span>; <span class="kw">font-size</span>: <span class="val">12px</span>;<br>
+  &nbsp;&nbsp;<span class="kw">margin-top</span>: <span class="val">-12px</span>; <span class="kw">margin-bottom</span>: <span class="val">10px</span>; }
+</div>
+<div>
+  <div class="hl" style="background:#EAF3DE;border-color:#C0DD97;margin:0;">
+    <div class="hl-t" style="color:#27500A;">display: block on inputs</div>
+    <div class="hl-d">Makes each input take its own full-width line instead of sitting inline</div>
+  </div>
+  <div class="hl" style="background:#FAEEDA;border-color:#FAC775;margin-top:6px;">
+    <div class="hl-t" style="color:#633806;">input:focus</div>
+    <div class="hl-d">The <code style="font-size:11px;">:focus</code> selector applies styles when the user clicks into the input</div>
+  </div>
+</div></div></div>
+
+<div class="slide" id="1s6"><span class="sn">7/8</span>
+<span class="tag tb">HTML</span><h2>Checkbox and radio inputs</h2>
+<div class="two">
+<div class="code" style="margin:0;font-size:11px;">
+  <span class="cm">&lt;!-- Checkbox --&gt;</span><br>
+  <span class="tg2">&lt;input</span> <span class="at">type=</span><span class="val">"checkbox"</span> <span class="at">id=</span><span class="val">"agree"</span><span class="tg2">&gt;</span><br>
+  <span class="tg2">&lt;label</span> <span class="at">for=</span><span class="val">"agree"</span><span class="tg2">&gt;</span>I agree to terms<span class="tg2">&lt;/label&gt;</span><br><br>
+  <span class="cm">&lt;!-- Radio buttons --&gt;</span><br>
+  <span class="tg2">&lt;input</span> <span class="at">type=</span><span class="val">"radio"</span> <span class="at">name=</span><span class="val">"gender"</span> <span class="at">value=</span><span class="val">"male"</span><span class="tg2">&gt;</span> Male<br>
+  <span class="tg2">&lt;input</span> <span class="at">type=</span><span class="val">"radio"</span> <span class="at">name=</span><span class="val">"gender"</span> <span class="at">value=</span><span class="val">"female"</span><span class="tg2">&gt;</span> Female<br><br>
+  <span class="cm">// Check if checkbox is ticked</span><br>
+  <span class="kw">let</span> agreed = document.<span class="cd">getElementById</span>(<span class="st">"agree"</span>).checked;<br>
+  <span class="kw">if</span> (!agreed) {<br>
+  &nbsp;&nbsp;<span class="cd">alert</span>(<span class="st">"Please accept the terms!"</span>);<br>
+  }
+</div>
+<div>
+  <div class="card"><div class="ct">Key difference</div>
+  <ul class="pts">
+    <li><span class="dot db"></span><span>Checkbox — can tick many at once</span></li>
+    <li><span class="dot da"></span><span>Radio — only one can be selected (same <code style="font-size:11px;">name</code> groups them)</span></li>
+    <li><span class="dot dg"></span><span>Use <code style="font-size:11px;">.checked</code> not <code style="font-size:11px;">.value</code> to read checkbox</span></li>
+  </ul></div>
+</div></div></div>
+
+<div class="slide" id="1s7"><span class="sn">8/8</span>
+<span class="tag tp">Your turn</span><h2>Challenge — build a sign-up form</h2>
+<p class="sub">Create a registration form with validation for all fields</p>
+<div class="two">
+<div class="card"><div class="ct">Required fields</div>
+<ul class="pts">
+  <li><span class="dot db"></span><span>Full name (cannot be empty)</span></li>
+  <li><span class="dot db"></span><span>Email (must contain @)</span></li>
+  <li><span class="dot db"></span><span>Password (minimum 6 characters)</span></li>
+  <li><span class="dot db"></span><span>Confirm password (must match)</span></li>
+  <li><span class="dot db"></span><span>Agree to terms checkbox (must be ticked)</span></li>
+</ul></div>
+<div>
+  <div class="card"><div class="ct">Bonus challenges</div>
+  <ul class="pts">
+    <li><span class="dot dp"></span><span>Show a green tick next to valid fields</span></li>
+    <li><span class="dot dp"></span><span>Show/hide password button</span></li>
+    <li><span class="dot dp"></span><span>After success, show a "Welcome!" message and hide the form</span></li>
+  </ul></div>
+  <div class="hl" style="background:#EEEDFE;border-color:#CECBF6;margin-top:6px;">
+    <div class="hl-t" style="color:#3C3489;">Hint: check if email contains @</div>
+    <div class="hl-d"><code style="font-size:11px;">email.includes("@")</code> returns true or false</div>
+  </div>
+</div></div></div>
+</div>
+
+<!-- ===== L6 ===== -->
+<div class="deck" id="d2"><div class="stabs" id="st2"></div>
+
+<div class="slide on" id="2s0"><span class="sn">1/8</span><div class="big">
+  <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center;"><span class="tag tj">JavaScript</span><span class="tag tpi">localStorage</span></div>
+  <h2 style="font-size:20px;max-width:390px;">Saving data in the browser with localStorage</h2>
+  <p class="sub" style="max-width:360px;">Ever wondered how a website remembers you? localStorage lets you save data that survives page refresh!</p>
+</div></div>
+
+<div class="slide" id="2s1"><span class="sn">2/8</span>
+<span class="tag tg">Agenda</span><h2>What we'll cover today</h2>
+<div class="step-row">
+  <div class="step"><div class="sline"></div><div class="sc" style="background:#FBEAF0;color:#72243E;">1</div><div class="sl">What is localStorage?<div class="slt">5 min</div></div></div>
+  <div class="step"><div class="sline"></div><div class="sc" style="background:#FBEAF0;color:#72243E;">2</div><div class="sl">Get &amp; set<div class="slt">7 min</div></div></div>
+  <div class="step"><div class="sline"></div><div class="sc" style="background:#FAEEDA;color:#633806;">3</div><div class="sl">Store objects<div class="slt">8 min</div></div></div>
+  <div class="step"><div class="sline"></div><div class="sc" style="background:#FAEEDA;color:#633806;">4</div><div class="sl">Persist to-do list<div class="slt">8 min</div></div></div>
+  <div class="step"><div class="sc" style="background:#EEEDFE;color:#3C3489;">5</div><div class="sl">Challenge<div class="slt">2 min</div></div></div>
+</div>
+<ul class="pts" style="margin-top:8px;">
+  <li><span class="dot dpi"></span><span>localStorage stores data in the browser — it stays after refresh</span></li>
+  <li><span class="dot da"></span><span>Data is saved as text — use JSON to store objects and arrays</span></li>
+  <li><span class="dot dp"></span><span>We'll upgrade the to-do app so tasks survive a page reload!</span></li>
+</ul></div>
+
+<div class="slide" id="2s2"><span class="sn">3/8</span>
+<span class="tag tpi">localStorage</span><h2>What is localStorage?</h2>
+<p class="sub">Think of it as a tiny notebook your browser keeps — it remembers data even after you close the tab</p>
+<div class="two">
+<div class="code" style="margin:0;font-size:11px;">
+  <span class="cm">// Save a value</span><br>
+  localStorage.<span class="cd">setItem</span>(<span class="st">"username"</span>, <span class="st">"Sarah"</span>);<br><br>
+  <span class="cm">// Read a value</span><br>
+  <span class="kw">let</span> name = localStorage.<span class="cd">getItem</span>(<span class="st">"username"</span>);<br>
+  console.<span class="cd">log</span>(name); <span class="cm">// "Sarah"</span><br><br>
+  <span class="cm">// Delete one item</span><br>
+  localStorage.<span class="cd">removeItem</span>(<span class="st">"username"</span>);<br><br>
+  <span class="cm">// Delete everything</span><br>
+  localStorage.<span class="cd">clear</span>();
+</div>
+<div>
+  <div class="card"><div class="ct">3 simple rules</div>
+  <ul class="pts">
+    <li><span class="dot dpi"></span><span>Keys and values are always strings</span></li>
+    <li><span class="dot dpi"></span><span>Data stays until you delete it or the user clears browser data</span></li>
+    <li><span class="dot dpi"></span><span>Each website has its own separate storage</span></li>
+  </ul></div>
+  <div class="hl" style="background:#FBEAF0;border-color:#F4C0D1;margin-top:6px;">
+    <div class="hl-t" style="color:#72243E;">Check in DevTools</div>
+    <div class="hl-d">F12 → Application → Local Storage — you can see and edit your saved data!</div>
+  </div>
+</div></div></div>
+
+<div class="slide" id="2s3"><span class="sn">4/8</span>
+<span class="tag tpi">localStorage</span><h2>Storing objects and arrays using JSON</h2>
+<p class="sub">localStorage only stores text — use JSON.stringify() to save objects and JSON.parse() to read them back</p>
+<div class="two">
+<div class="code" style="margin:0;font-size:11px;">
+  <span class="kw">let</span> user = { name: <span class="st">"Sarah"</span>, age: <span style="color:#BA7517;">17</span> };<br><br>
+  <span class="cm">// Convert object → text to save</span><br>
+  localStorage.<span class="cd">setItem</span>(<span class="st">"user"</span>, JSON.<span class="cd">stringify</span>(user));<br><br>
+  <span class="cm">// Convert text → object to read</span><br>
+  <span class="kw">let</span> saved = JSON.<span class="cd">parse</span>(localStorage.<span class="cd">getItem</span>(<span class="st">"user"</span>));<br>
+  console.<span class="cd">log</span>(saved.name); <span class="cm">// "Sarah"</span><br><br>
+  <span class="cm">// Same with arrays</span><br>
+  <span class="kw">let</span> tasks = [<span class="st">"Study"</span>, <span class="st">"Code"</span>, <span class="st">"Sleep"</span>];<br>
+  localStorage.<span class="cd">setItem</span>(<span class="st">"tasks"</span>, JSON.<span class="cd">stringify</span>(tasks));<br>
+  <span class="kw">let</span> myTasks = JSON.<span class="cd">parse</span>(localStorage.<span class="cd">getItem</span>(<span class="st">"tasks"</span>));
+</div>
+<div>
+  <div class="hl" style="background:#FBEAF0;border-color:#F4C0D1;margin:0;">
+    <div class="hl-t" style="color:#72243E;">JSON.stringify() → save</div>
+    <div class="hl-d">Converts objects/arrays to a text string so localStorage can store them</div>
+  </div>
+  <div class="hl" style="background:#FAEEDA;border-color:#FAC775;margin-top:6px;">
+    <div class="hl-t" style="color:#633806;">JSON.parse() → read</div>
+    <div class="hl-d">Converts the text string back into a real object or array you can use</div>
+  </div>
+</div></div></div>
+
+<div class="slide" id="2s4"><span class="sn">5/8</span>
+<span class="tag tpi">localStorage</span><h2>Persisting the to-do list</h2>
+<p class="sub">Upgrade your to-do app — tasks now survive page refresh!</p>
+<div class="code" style="font-size:11px;">
+  <span class="cm">// Load tasks when page opens</span><br>
+  <span class="kw">let</span> tasks = JSON.<span class="cd">parse</span>(localStorage.<span class="cd">getItem</span>(<span class="st">"tasks"</span>)) || [];<br><br>
+  <span class="cm">// Save tasks every time they change</span><br>
+  <span class="kw">function</span> <span class="cd">saveTasks</span>() {<br>
+  &nbsp;&nbsp;localStorage.<span class="cd">setItem</span>(<span class="st">"tasks"</span>, JSON.<span class="cd">stringify</span>(tasks));<br>
+  }<br><br>
+  <span class="cm">// Call saveTasks() after every add or delete</span><br>
+  <span class="kw">function</span> <span class="cd">addTask</span>() {<br>
+  &nbsp;&nbsp;<span class="kw">let</span> text = document.<span class="cd">getElementById</span>(<span class="st">"taskInput"</span>).value;<br>
+  &nbsp;&nbsp;<span class="kw">if</span> (text) {<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;tasks.<span class="cd">push</span>({ text: text, done: <span style="color:#7F77DD;">false</span> });<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class="cd">saveTasks</span>(); <span class="cm">// save immediately!</span><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class="cd">render</span>();<br>
+  &nbsp;&nbsp;}<br>
+  }<br><br>
+  <span class="cm">// Initial render when page loads</span><br>
+  <span class="cd">render</span>();
+</div></div>
+
+<div class="slide" id="2s5"><span class="sn">6/8</span>
+<span class="tag tpi">localStorage</span><h2>Handling missing data safely</h2>
+<div class="two">
+<div class="code" style="margin:0;font-size:11px;">
+  <span class="cm">// getItem returns null if key doesn't exist</span><br>
+  <span class="kw">let</span> raw = localStorage.<span class="cd">getItem</span>(<span class="st">"tasks"</span>);<br><br>
+  <span class="cm">// Safe pattern: use || [] as fallback</span><br>
+  <span class="kw">let</span> tasks = raw ? JSON.<span class="cd">parse</span>(raw) : [];<br><br>
+  <span class="cm">// Or using the OR shortcut</span><br>
+  <span class="kw">let</span> tasks2 = JSON.<span class="cd">parse</span>(<br>
+  &nbsp;&nbsp;localStorage.<span class="cd">getItem</span>(<span class="st">"tasks"</span>)<br>
+  ) || [];<br><br>
+  <span class="cm">// Save user preferences</span><br>
+  <span class="kw">let</span> theme = localStorage.<span class="cd">getItem</span>(<span class="st">"theme"</span>) || <span class="st">"light"</span>;<br>
+  <span class="kw">let</span> username = localStorage.<span class="cd">getItem</span>(<span class="st">"username"</span>) || <span class="st">"Guest"</span>;
+</div>
+<div>
+  <div class="card"><div class="ct">Practical uses</div>
+  <ul class="pts">
+    <li><span class="dot dpi"></span><span>Remember dark/light mode preference</span></li>
+    <li><span class="dot dpi"></span><span>Save a user's name after they sign in</span></li>
+    <li><span class="dot dpi"></span><span>Keep a shopping cart between page visits</span></li>
+    <li><span class="dot dpi"></span><span>Store game scores</span></li>
+  </ul></div>
+</div></div></div>
+
+<div class="slide" id="2s6"><span class="sn">7/8</span>
+<span class="tag tpi">localStorage</span><h2>Dark mode with localStorage</h2>
+<div class="two">
+<div class="code" style="margin:0;font-size:11px;">
+  <span class="tg2">&lt;button</span> <span class="at">onclick=</span><span class="val">"toggleTheme()"</span><span class="tg2">&gt;</span>Toggle theme<span class="tg2">&lt;/button&gt;</span><br><br>
+  <span class="cm">// Load saved theme on page open</span><br>
+  <span class="kw">let</span> theme = localStorage.<span class="cd">getItem</span>(<span class="st">"theme"</span>) || <span class="st">"light"</span>;<br>
+  <span class="cd">applyTheme</span>(theme);<br><br>
+  <span class="kw">function</span> <span class="cd">toggleTheme</span>() {<br>
+  &nbsp;&nbsp;theme = theme === <span class="st">"light"</span> ? <span class="st">"dark"</span> : <span class="st">"light"</span>;<br>
+  &nbsp;&nbsp;localStorage.<span class="cd">setItem</span>(<span class="st">"theme"</span>, theme);<br>
+  &nbsp;&nbsp;<span class="cd">applyTheme</span>(theme);<br>
+  }<br><br>
+  <span class="kw">function</span> <span class="cd">applyTheme</span>(t) {<br>
+  &nbsp;&nbsp;document.body.style.background = t === <span class="st">"dark"</span> ? <span class="st">"#111"</span> : <span class="st">"#fff"</span>;<br>
+  &nbsp;&nbsp;document.body.style.color = t === <span class="st">"dark"</span> ? <span class="st">"#fff"</span> : <span class="st">"#111"</span>;<br>
+  }
+</div>
+<div>
+  <div class="hl" style="background:#FBEAF0;border-color:#F4C0D1;margin:0;">
+    <div class="hl-t" style="color:#72243E;">Ternary operator</div>
+    <div class="hl-d"><code style="font-size:11px;">condition ? valueIfTrue : valueIfFalse</code> — a compact if/else on one line</div>
+  </div>
+  <div class="preview" style="margin-top:6px;display:flex;gap:8px;">
+    <div style="flex:1;background:#f5f5f5;border-radius:6px;padding:8px;text-align:center;font-size:12px;color:#111;">Light mode</div>
+    <div style="flex:1;background:#222;border-radius:6px;padding:8px;text-align:center;font-size:12px;color:#fff;">Dark mode</div>
+  </div>
+</div></div></div>
+
+<div class="slide" id="2s7"><span class="sn">8/8</span>
+<span class="tag tp">Your turn</span><h2>Challenge — persistent sign-up form</h2>
+<p class="sub">Combine forms (Lesson 5) with localStorage to remember the user</p>
+<div class="two">
+<div class="card"><div class="ct">What to build</div>
+<ul class="pts">
+  <li><span class="dot dpi"></span><span>After form is submitted successfully, save the name to localStorage</span></li>
+  <li><span class="dot dpi"></span><span>When page loads, check if a name is saved — if yes, show "Welcome back, [name]!" instead of the form</span></li>
+  <li><span class="dot dpi"></span><span>Add a "Log out" button that clears localStorage and shows the form again</span></li>
+</ul></div>
+<div>
+  <div class="code" style="margin:0;font-size:11px;">
+    <span class="cm">// On page load</span><br>
+    <span class="kw">let</span> saved = localStorage.<span class="cd">getItem</span>(<span class="st">"username"</span>);<br>
+    <span class="kw">if</span> (saved) {<br>
+    &nbsp;&nbsp;document.<span class="cd">getElementById</span>(<span class="st">"welcome"</span>).innerHTML =<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span class="st">"Welcome back, "</span> + saved + <span class="st">"!"</span>;<br>
+    &nbsp;&nbsp;document.<span class="cd">getElementById</span>(<span class="st">"form"</span>).style.display = <span class="st">"none"</span>;<br>
+    }
+  </div>
+</div></div></div>
+</div>
+
+<!-- ===== L7 ===== -->
+<div class="deck" id="d3"><div class="stabs" id="st3"></div>
+
+<div class="slide on" id="3s0"><span class="sn">1/8</span><div class="big">
+  <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center;"><span class="tag tj">JavaScript</span><span class="tag taq">Fetch API</span><span class="tag tco">JSON</span></div>
+  <h2 style="font-size:20px;max-width:390px;">Talking to the internet with fetch</h2>
+  <p class="sub" style="max-width:360px;">APIs power every app you use. Learn how to fetch real live data from the web inside your own webpage!</p>
+</div></div>
+
+<div class="slide" id="3s1"><span class="sn">2/8</span>
+<span class="tag tg">Agenda</span><h2>What we'll cover today</h2>
+<div class="step-row">
+  <div class="step"><div class="sline"></div><div class="sc" style="background:#E1F5EE;color:#085041;">1</div><div class="sl">What is an API?<div class="slt">5 min</div></div></div>
+  <div class="step"><div class="sline"></div><div class="sc" style="background:#E1F5EE;color:#085041;">2</div><div class="sl">fetch basics<div class="slt">7 min</div></div></div>
+  <div class="step"><div class="sline"></div><div class="sc" style="background:#FAEEDA;color:#633806;">3</div><div class="sl">Read JSON<div class="slt">7 min</div></div></div>
+  <div class="step"><div class="sline"></div><div class="sc" style="background:#FAEEDA;color:#633806;">4</div><div class="sl">Display data<div class="slt">8 min</div></div></div>
+  <div class="step"><div class="sc" style="background:#EEEDFE;color:#3C3489;">5</div><div class="sl">Challenge<div class="slt">3 min</div></div></div>
+</div>
+<ul class="pts" style="margin-top:8px;">
+  <li><span class="dot dtq"></span><span>API = a service that gives you data when you ask for it</span></li>
+  <li><span class="dot da"></span><span>fetch() is JavaScript's built-in tool to request data from a URL</span></li>
+  <li><span class="dot dp"></span><span>We'll build a live joke generator and weather lookup app</span></li>
+</ul></div>
+
+<div class="slide" id="3s2"><span class="sn">3/8</span>
+<span class="tag taq">API</span><h2>What is an API? The waiter analogy</h2>
+<div class="two">
+<div>
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+    <div style="background:#E6F1FB;border-radius:6px;padding:7px 10px;font-size:12px;font-weight:500;color:#0C447C;">Your app</div>
+    <div style="font-size:18px;color:var(--color-text-tertiary);">→</div>
+    <div style="background:#E1F5EE;border-radius:6px;padding:7px 10px;font-size:12px;font-weight:500;color:#085041;">API (waiter)</div>
+    <div style="font-size:18px;color:var(--color-text-tertiary);">→</div>
+    <div style="background:#FAEEDA;border-radius:6px;padding:7px 10px;font-size:12px;font-weight:500;color:#633806;">Server</div>
+  </div>
+  <ul class="pts">
+    <li><span class="dot dtq"></span><span>You ask: "Give me today's weather in Singapore"</span></li>
+    <li><span class="dot dtq"></span><span>API fetches it from the server</span></li>
+    <li><span class="dot dtq"></span><span>Data comes back as JSON text</span></li>
+    <li><span class="dot dtq"></span><span>You display it on your page</span></li>
+  </ul>
+</div>
+<div>
+  <div class="card"><div class="ct">Free APIs to try</div>
+  <ul class="pts">
+    <li><span class="dot da"></span><span>Official Joke API — random jokes</span></li>
+    <li><span class="dot da"></span><span>JSONPlaceholder — fake blog posts</span></li>
+    <li><span class="dot da"></span><span>PokeAPI — Pokemon data</span></li>
+    <li><span class="dot da"></span><span>Open-Meteo — free weather data</span></li>
+  </ul></div>
+</div></div></div>
+
+<div class="slide" id="3s3"><span class="sn">4/8</span>
+<span class="tag taq">fetch</span><h2>Your first fetch call</h2>
+<p class="sub">fetch() sends a request to a URL and returns a promise — then() runs when data arrives</p>
+<div class="two">
+<div class="code" style="margin:0;font-size:11px;">
+  <span class="cm">// Fetch a random joke</span><br>
+  fetch(<span class="st">"https://official-joke-api.appspot.com/random_joke"</span>)<br>
+  &nbsp;&nbsp;.<span class="cd">then</span>(<span class="kw">function</span>(response) {<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span> response.<span class="cd">json</span>(); <span class="cm">// parse JSON</span><br>
+  &nbsp;&nbsp;})<br>
+  &nbsp;&nbsp;.<span class="cd">then</span>(<span class="kw">function</span>(data) {<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// data is now a JS object!</span><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;console.<span class="cd">log</span>(data.setup);<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;console.<span class="cd">log</span>(data.punchline);<br>
+  &nbsp;&nbsp;})<br>
+  &nbsp;&nbsp;.<span class="cd">catch</span>(<span class="kw">function</span>(error) {<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;console.<span class="cd">log</span>(<span class="st">"Error: "</span> + error);<br>
+  &nbsp;&nbsp;});
+</div>
+<div>
+  <div class="hl" style="background:#E1F5EE;border-color:#9FE1CB;margin:0;">
+    <div class="hl-t" style="color:#085041;">.then() — runs when data arrives</div>
+    <div class="hl-d">fetch is asynchronous — it doesn't block your page while waiting</div>
+  </div>
+  <div class="hl" style="background:#FAECE7;border-color:#F5C4B3;margin-top:6px;">
+    <div class="hl-t" style="color:#712B13;">.catch() — handles errors</div>
+    <div class="hl-d">Always add .catch() — the API might be offline or return an error</div>
+  </div>
+</div></div></div>
+
+<div class="slide" id="3s4"><span class="sn">5/8</span>
+<span class="tag taq">fetch</span><h2>Building a joke generator</h2>
+<div class="two">
+<div class="code" style="margin:0;font-size:11px;">
+  <span class="tg2">&lt;div</span> <span class="at">id=</span><span class="val">"setup"</span><span class="tg2">&gt;</span>Click for a joke!<span class="tg2">&lt;/div&gt;</span><br>
+  <span class="tg2">&lt;div</span> <span class="at">id=</span><span class="val">"punchline"</span><span class="tg2">&gt;&lt;/div&gt;</span><br>
+  <span class="tg2">&lt;button</span> <span class="at">onclick=</span><span class="val">"getJoke()"</span><span class="tg2">&gt;</span>New joke<span class="tg2">&lt;/button&gt;</span><br><br>
+  <span class="kw">function</span> <span class="cd">getJoke</span>() {<br>
+  &nbsp;&nbsp;document.<span class="cd">getElementById</span>(<span class="st">"setup"</span>).innerHTML = <span class="st">"Loading..."</span>;<br>
+  &nbsp;&nbsp;document.<span class="cd">getElementById</span>(<span class="st">"punchline"</span>).innerHTML = <span class="st">""</span>;<br><br>
+  &nbsp;&nbsp;fetch(<span class="st">"https://official-joke-api.appspot.com/random_joke"</span>)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;.<span class="cd">then</span>(r =&gt; r.<span class="cd">json</span>())<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;.<span class="cd">then</span>(data =&gt; {<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;document.<span class="cd">getElementById</span>(<span class="st">"setup"</span>).innerHTML = data.setup;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;document.<span class="cd">getElementById</span>(<span class="st">"punchline"</span>).innerHTML = data.punchline;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;})<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;.<span class="cd">catch</span>(() =&gt; { document.<span class="cd">getElementById</span>(<span class="st">"setup"</span>).innerHTML = <span class="st">"Error loading joke!"</span>; });<br>
+  }
+</div>
+<div>
+  <div class="preview" style="margin:0;">
+    <div style="font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:5px;">Why don't scientists trust atoms?</div>
+    <div style="font-size:12px;color:#1D9E75;">Because they make up everything!</div>
+    <div style="margin-top:10px;background:#2a5fa5;color:white;border-radius:6px;padding:6px 12px;font-size:12px;display:inline-block;">New joke</div>
+  </div>
+  <div class="hl" style="background:#E1F5EE;border-color:#9FE1CB;margin-top:6px;">
+    <div class="hl-t" style="color:#085041;">Arrow functions — r =&gt; r.json()</div>
+    <div class="hl-d">A shorter way to write function(r) { return r.json() }</div>
+  </div>
+</div></div></div>
+
+<div class="slide" id="3s5"><span class="sn">6/8</span>
+<span class="tag taq">fetch</span><h2>Fetching a list and displaying it</h2>
+<p class="sub">APIs often return arrays of objects — loop through them to display each one</p>
+<div class="code" style="font-size:11px;">
+  <span class="cm">// Fetch 5 fake blog posts from JSONPlaceholder</span><br>
+  fetch(<span class="st">"https://jsonplaceholder.typicode.com/posts?_limit=5"</span>)<br>
+  &nbsp;&nbsp;.<span class="cd">then</span>(r =&gt; r.<span class="cd">json</span>())<br>
+  &nbsp;&nbsp;.<span class="cd">then</span>(posts =&gt; {<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">let</span> list = document.<span class="cd">getElementById</span>(<span class="st">"postList"</span>);<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;list.innerHTML = <span class="st">""</span>;<br><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;posts.<span class="cd">forEach</span>(post =&gt; {<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.innerHTML += <span class="st">`&lt;div class="post"&gt;</span><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="st">&lt;h3&gt;${post.title}&lt;/h3&gt;</span><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="st">&lt;p&gt;${post.body}&lt;/p&gt;</span><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="st">&lt;/div&gt;`</span>;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;});<br>
+  &nbsp;&nbsp;});
+</div>
+<div class="hl" style="background:#FAEEDA;border-color:#FAC775;margin-top:4px;">
+  <div class="hl-t" style="color:#633806;">Template literals — backtick strings</div>
+  <div class="hl-d">Use backticks (`) and <code style="font-size:11px;">${variable}</code> to embed variables directly in strings — much cleaner than "+" concatenation</div>
+</div></div>
+
+<div class="slide" id="3s6"><span class="sn">7/8</span>
+<span class="tag taq">fetch</span><h2>Loading states and error handling</h2>
+<div class="two">
+<div class="code" style="margin:0;font-size:11px;">
+  <span class="kw">function</span> <span class="cd">fetchData</span>() {<br>
+  &nbsp;&nbsp;<span class="kw">let</span> output = document.<span class="cd">getElementById</span>(<span class="st">"output"</span>);<br><br>
+  &nbsp;&nbsp;<span class="cm">// Show loading state</span><br>
+  &nbsp;&nbsp;output.innerHTML = <span class="st">"Loading..."</span>;<br>
+  &nbsp;&nbsp;output.style.color = <span class="st">"gray"</span>;<br><br>
+  &nbsp;&nbsp;fetch(<span class="st">"https://api.example.com/data"</span>)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;.<span class="cd">then</span>(response =&gt; {<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">if</span> (!response.ok) <span class="kw">throw new</span> Error(<span class="st">"Bad response"</span>);<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span> response.<span class="cd">json</span>();<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;})<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;.<span class="cd">then</span>(data =&gt; {<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;output.innerHTML = data.result;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;output.style.color = <span class="st">"green"</span>;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;})<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;.<span class="cd">catch</span>(err =&gt; {<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;output.innerHTML = <span class="st">"Failed to load data."</span>;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;output.style.color = <span class="st">"red"</span>;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;});<br>
+  }
+</div>
+<div>
+  <div class="card"><div class="ct">3-state pattern</div>
+  <ul class="pts">
+    <li><span class="dot da"></span><span>Loading — show "Loading..." while waiting</span></li>
+    <li><span class="dot dg"></span><span>Success — display the data</span></li>
+    <li><span class="dot dc"></span><span>Error — show a friendly message</span></li>
+  </ul></div>
+  <div class="hl" style="background:#E1F5EE;border-color:#9FE1CB;margin-top:6px;">
+    <div class="hl-t" style="color:#085041;">Always handle all 3 states</div>
+    <div class="hl-d">Good UX means the user always knows what's happening — never leave them staring at a blank page</div>
+  </div>
+</div></div></div>
+
+<div class="slide" id="3s7"><span class="sn">8/8</span>
+<span class="tag tp">Your turn</span><h2>Challenge — build a Pokemon lookup app</h2>
+<p class="sub">Use the free PokeAPI to search for any Pokemon by name</p>
+<div class="two">
+<div class="code" style="margin:0;font-size:11px;">
+  <span class="tg2">&lt;input</span> <span class="at">id=</span><span class="val">"pokeName"</span> <span class="at">placeholder=</span><span class="val">"e.g. pikachu"</span><span class="tg2">&gt;</span><br>
+  <span class="tg2">&lt;button</span> <span class="at">onclick=</span><span class="val">"searchPoke()"</span><span class="tg2">&gt;</span>Search<span class="tg2">&lt;/button&gt;</span><br>
+  <span class="tg2">&lt;div</span> <span class="at">id=</span><span class="val">"result"</span><span class="tg2">&gt;&lt;/div&gt;</span><br><br>
+  <span class="kw">function</span> <span class="cd">searchPoke</span>() {<br>
+  &nbsp;&nbsp;<span class="kw">let</span> name = document.<span class="cd">getElementById</span>(<span class="st">"pokeName"</span>).value.toLowerCase();<br>
+  &nbsp;&nbsp;fetch(<span class="st">`https://pokeapi.co/api/v2/pokemon/${name}`</span>)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;.<span class="cd">then</span>(r =&gt; r.<span class="cd">json</span>())<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;.<span class="cd">then</span>(p =&gt; {<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;document.<span class="cd">getElementById</span>(<span class="st">"result"</span>).innerHTML =<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="st">`&lt;img src="${p.sprites.front_default}"&gt;&lt;p&gt;${p.name}&lt;/p&gt;`</span>;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;});<br>
+  }
+</div>
+<div>
+  <div class="preview" style="text-align:center;">
+    <div style="width:50px;height:50px;border-radius:50%;background:#FAEEDA;margin:0 auto 5px;display:flex;align-items:center;justify-content:center;font-size:20px;">?</div>
+    <div style="font-size:13px;font-weight:500;color:var(--color-text-primary);">pikachu</div>
+    <div style="font-size:11px;color:var(--color-text-secondary);">HP: 35 · Speed: 90</div>
+  </div>
+  <div class="card" style="margin-top:6px;"><div class="ct">Bonus</div>
+  <ul class="pts">
+    <li><span class="dot dp"></span><span>Show the Pokemon's type (fire, water, etc.)</span></li>
+    <li><span class="dot dp"></span><span>Display HP and speed stats</span></li>
+    <li><span class="dot dp"></span><span>Show error if Pokemon not found</span></li>
+  </ul></div>
+</div></div></div>
+</div>
+
+<!-- ===== L8 ===== -->
+<div class="deck" id="d4"><div class="stabs" id="st4"></div>
+
+<div class="slide on" id="4s0"><span class="sn">1/8</span><div class="big">
+  <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center;"><span class="tag tb">HTML</span><span class="tag tc">CSS</span><span class="tag tj">JavaScript</span></div>
+  <h2 style="font-size:20px;max-width:390px;">Final project — build your own portfolio website</h2>
+  <p class="sub" style="max-width:360px;">Put everything together — HTML, CSS, JS, forms, localStorage and an API — in one polished project you can show anyone!</p>
+</div></div>
+
+<div class="slide" id="4s1"><span class="sn">2/8</span>
+<span class="tag tg">Agenda</span><h2>What we'll build today</h2>
+<div class="step-row">
+  <div class="step"><div class="sline"></div><div class="sc" style="background:#E6F1FB;color:#0C447C;">1</div><div class="sl">Plan &amp; structure<div class="slt">5 min</div></div></div>
+  <div class="step"><div class="sline"></div><div class="sc" style="background:#EAF3DE;color:#27500A;">2</div><div class="sl">Navbar + hero<div class="slt">7 min</div></div></div>
+  <div class="step"><div class="sline"></div><div class="sc" style="background:#FAEEDA;color:#633806;">3</div><div class="sl">Projects section<div class="slt">7 min</div></div></div>
+  <div class="step"><div class="sline"></div><div class="sc" style="background:#FBEAF0;color:#72243E;">4</div><div class="sl">Contact form<div class="slt">7 min</div></div></div>
+  <div class="step"><div class="sc" style="background:#EEEDFE;color:#3C3489;">5</div><div class="sl">Polish &amp; ship<div class="slt">4 min</div></div></div>
+</div>
+<ul class="pts" style="margin-top:8px;">
+  <li><span class="dot db"></span><span>A portfolio is the most important thing you can show a future employer</span></li>
+  <li><span class="dot dg"></span><span>Every section will use a skill from a previous lesson</span></li>
+  <li><span class="dot dp"></span><span>By the end you'll have a real website you can put on GitHub!</span></li>
+</ul></div>
+
+<div class="slide" id="4s2"><span class="sn">3/8</span>
+<span class="tag tb">HTML</span><h2>Page structure — plan before you code</h2>
+<div class="two">
+<div class="code" style="margin:0;font-size:11px;">
+  <span class="tg2">&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;</span><br>
+  &nbsp;&nbsp;<span class="tg2">&lt;title&gt;</span>Sarah's Portfolio<span class="tg2">&lt;/title&gt;</span><br>
+  &nbsp;&nbsp;<span class="tg2">&lt;link</span> <span class="at">rel=</span><span class="val">"stylesheet"</span> <span class="at">href=</span><span class="val">"style.css"</span><span class="tg2">&gt;</span><br>
+  <span class="tg2">&lt;/head&gt;&lt;body&gt;</span><br><br>
+  &nbsp;&nbsp;<span class="tg2">&lt;nav</span> <span class="at">class=</span><span class="val">"navbar"</span><span class="tg2">&gt;</span>...<span class="tg2">&lt;/nav&gt;</span><br>
+  &nbsp;&nbsp;<span class="tg2">&lt;section</span> <span class="at">id=</span><span class="val">"hero"</span><span class="tg2">&gt;</span>...<span class="tg2">&lt;/section&gt;</span><br>
+  &nbsp;&nbsp;<span class="tg2">&lt;section</span> <span class="at">id=</span><span class="val">"about"</span><span class="tg2">&gt;</span>...<span class="tg2">&lt;/section&gt;</span><br>
+  &nbsp;&nbsp;<span class="tg2">&lt;section</span> <span class="at">id=</span><span class="val">"projects"</span><span class="tg2">&gt;</span>...<span class="tg2">&lt;/section&gt;</span><br>
+  &nbsp;&nbsp;<span class="tg2">&lt;section</span> <span class="at">id=</span><span class="val">"contact"</span><span class="tg2">&gt;</span>...<span class="tg2">&lt;/section&gt;</span><br>
+  &nbsp;&nbsp;<span class="tg2">&lt;footer&gt;</span>...<span class="tg2">&lt;/footer&gt;</span><br>
+  &nbsp;&nbsp;<span class="tg2">&lt;script</span> <span class="at">src=</span><span class="val">"app.js"</span><span class="tg2">&gt;&lt;/script&gt;</span><br>
+  <span class="tg2">&lt;/body&gt;&lt;/html&gt;</span>
+</div>
+<div>
+  <div class="card"><div class="ct">3 separate files</div>
+  <ul class="pts">
+    <li><span class="dot db"></span><span><code style="font-size:11px;">index.html</code> — the structure</span></li>
+    <li><span class="dot dg"></span><span><code style="font-size:11px;">style.css</code> — all the styling</span></li>
+    <li><span class="dot da"></span><span><code style="font-size:11px;">app.js</code> — all the JavaScript</span></li>
+  </ul></div>
+  <div class="hl" style="background:#E6F1FB;border-color:#B5D4F4;margin-top:6px;">
+    <div class="hl-t" style="color:#0C447C;">&lt;section&gt; organises your page</div>
+    <div class="hl-d">Use &lt;section&gt; for major page areas — better than &lt;div&gt; for structure and readability</div>
+  </div>
+</div></div></div>
+
+<div class="slide" id="4s3"><span class="sn">4/8</span>
+<span class="tag tc">CSS</span><h2>Hero section — make a great first impression</h2>
+<div class="two">
+<div class="code" style="margin:0;font-size:11px;">
+  <span class="tg2">&lt;section</span> <span class="at">id=</span><span class="val">"hero"</span><span class="tg2">&gt;</span><br>
+  &nbsp;&nbsp;<span class="tg2">&lt;div</span> <span class="at">class=</span><span class="val">"avatar"</span><span class="tg2">&gt;</span>S<span class="tg2">&lt;/div&gt;</span><br>
+  &nbsp;&nbsp;<span class="tg2">&lt;h1&gt;</span>Hi, I'm Sarah Tan<span class="tg2">&lt;/h1&gt;</span><br>
+  &nbsp;&nbsp;<span class="tg2">&lt;p&gt;</span>IT Student · Web Developer in training<span class="tg2">&lt;/p&gt;</span><br>
+  &nbsp;&nbsp;<span class="tg2">&lt;a</span> <span class="at">href=</span><span class="val">"#projects"</span><span class="tg2">&gt;</span>See my work<span class="tg2">&lt;/a&gt;</span><br>
+  <span class="tg2">&lt;/section&gt;</span><br><br>
+  <span class="at">#hero</span> { <span class="kw">text-align</span>: <span class="val">center</span>; <span class="kw">padding</span>: <span class="val">80px 20px</span>; }<br>
+  <span class="at">.avatar</span> { <span class="kw">width</span>: <span class="val">100px</span>; <span class="kw">height</span>: <span class="val">100px</span>;<br>
+  &nbsp;&nbsp;<span class="kw">border-radius</span>: <span class="val">50%</span>; <span class="kw">background</span>: <span class="val">#2a5fa5</span>;<br>
+  &nbsp;&nbsp;<span class="kw">margin</span>: <span class="val">0 auto 20px</span>;<br>
+  &nbsp;&nbsp;<span class="kw">font-size</span>: <span class="val">40px</span>; <span class="kw">line-height</span>: <span class="val">100px</span>; <span class="kw">color</span>: <span class="val">white</span>; }
+</div>
+<div class="preview" style="text-align:center;padding:20px 12px;">
+  <div style="width:56px;height:56px;border-radius:50%;background:#2a5fa5;margin:0 auto 8px;display:flex;align-items:center;justify-content:center;color:white;font-size:22px;font-weight:500;">S</div>
+  <div style="font-size:15px;font-weight:500;color:var(--color-text-primary);">Hi, I'm Sarah Tan</div>
+  <div style="font-size:12px;color:var(--color-text-secondary);margin:3px 0 10px;">IT Student · Web Developer in training</div>
+  <div style="background:#2a5fa5;color:white;padding:6px 16px;border-radius:20px;font-size:12px;display:inline-block;">See my work</div>
+</div></div></div>
+
+<div class="slide" id="4s4"><span class="sn">5/8</span>
+<span class="tag tb">HTML</span><h2>Projects section — show what you've built</h2>
+<div class="two">
+<div class="code" style="margin:0;font-size:11px;">
+  <span class="tg2">&lt;section</span> <span class="at">id=</span><span class="val">"projects"</span><span class="tg2">&gt;</span><br>
+  &nbsp;&nbsp;<span class="tg2">&lt;h2&gt;</span>My Projects<span class="tg2">&lt;/h2&gt;</span><br>
+  &nbsp;&nbsp;<span class="tg2">&lt;div</span> <span class="at">class=</span><span class="val">"card-row"</span><span class="tg2">&gt;</span><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class="tg2">&lt;div</span> <span class="at">class=</span><span class="val">"project-card"</span><span class="tg2">&gt;</span><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tg2">&lt;h3&gt;</span>About Me Page<span class="tg2">&lt;/h3&gt;</span><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tg2">&lt;p&gt;</span>My first HTML &amp; CSS page<span class="tg2">&lt;/p&gt;</span><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tg2">&lt;span</span> <span class="at">class=</span><span class="val">"tag"</span><span class="tg2">&gt;</span>HTML<span class="tg2">&lt;/span&gt;</span><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tg2">&lt;span</span> <span class="at">class=</span><span class="val">"tag"</span><span class="tg2">&gt;</span>CSS<span class="tg2">&lt;/span&gt;</span><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class="tg2">&lt;/div&gt;</span><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span class="tg2">&lt;div</span> <span class="at">class=</span><span class="val">"project-card"</span><span class="tg2">&gt;</span>...<span class="tg2">&lt;/div&gt;</span><br>
+  &nbsp;&nbsp;<span class="tg2">&lt;/div&gt;</span><br>
+  <span class="tg2">&lt;/section&gt;</span>
+</div>
+<div>
+  <div style="display:flex;gap:6px;">
+    <div style="flex:1;border:1px solid var(--color-border-tertiary);border-radius:8px;padding:10px;">
+      <div style="font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:3px;">About Me Page</div>
+      <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:6px;">My first HTML &amp; CSS page</div>
+      <span style="background:#E6F1FB;color:#0C447C;font-size:10px;padding:2px 7px;border-radius:10px;margin-right:3px;">HTML</span>
+      <span style="background:#EAF3DE;color:#27500A;font-size:10px;padding:2px 7px;border-radius:10px;">CSS</span>
+    </div>
+    <div style="flex:1;border:1px solid var(--color-border-tertiary);border-radius:8px;padding:10px;">
+      <div style="font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:3px;">To-Do App</div>
+      <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:6px;">Task manager with localStorage</div>
+      <span style="background:#FAEEDA;color:#633806;font-size:10px;padding:2px 7px;border-radius:10px;">JavaScript</span>
+    </div>
+  </div>
+  <div class="hl" style="background:#EAF3DE;border-color:#C0DD97;margin-top:6px;">
+    <div class="hl-t" style="color:#27500A;">Add all your lesson projects here!</div>
+    <div class="hl-d">About Me, JS Playground, To-Do App, Joke Generator — you've already built them!</div>
+  </div>
+</div></div></div>
+
+<div class="slide" id="4s5"><span class="sn">6/8</span>
+<span class="tag tpi">localStorage</span><h2>Dark mode toggle for your portfolio</h2>
+<div class="two">
+<div class="code" style="margin:0;font-size:11px;">
+  <span class="tg2">&lt;button</span> <span class="at">id=</span><span class="val">"themeBtn"</span> <span class="at">onclick=</span><span class="val">"toggleTheme()"</span><span class="tg2">&gt;</span>Dark mode<span class="tg2">&lt;/button&gt;</span><br><br>
+  <span class="cm">/* In style.css */</span><br>
+  <span class="at">body.dark</span> { <span class="kw">background</span>: <span class="val">#1a1a2e</span>; <span class="kw">color</span>: <span class="val">#eee</span>; }<br>
+  <span class="at">body.dark .navbar</span> { <span class="kw">background</span>: <span class="val">#16213e</span>; }<br>
+  <span class="at">body.dark .project-card</span> { <span class="kw">background</span>: <span class="val">#222</span>; <span class="kw">border-color</span>: <span class="val">#444</span>; }<br><br>
+  <span class="cm">// In app.js</span><br>
+  <span class="kw">let</span> dark = localStorage.<span class="cd">getItem</span>(<span class="st">"dark"</span>) === <span class="st">"true"</span>;<br>
+  <span class="kw">if</span> (dark) document.body.classList.<span class="cd">add</span>(<span class="st">"dark"</span>);<br><br>
+  <span class="kw">function</span> <span class="cd">toggleTheme</span>() {<br>
+  &nbsp;&nbsp;dark = !dark;<br>
+  &nbsp;&nbsp;document.body.classList.<span class="cd">toggle</span>(<span class="st">"dark"</span>);<br>
+  &nbsp;&nbsp;localStorage.<span class="cd">setItem</span>(<span class="st">"dark"</span>, dark);<br>
+  }
+</div>
+<div>
+  <div class="hl" style="background:#FBEAF0;border-color:#F4C0D1;margin:0;">
+    <div class="hl-t" style="color:#72243E;">classList.toggle()</div>
+    <div class="hl-d">Adds the class if it's not there, removes it if it is — perfect for toggling modes</div>
+  </div>
+  <div class="hl" style="background:#FAEEDA;border-color:#FAC775;margin-top:6px;">
+    <div class="hl-t" style="color:#633806;">body.dark .card — CSS nesting</div>
+    <div class="hl-d">This selects .card elements only when body has the dark class — no JavaScript needed!</div>
+  </div>
+</div></div></div>
+
+<div class="slide" id="4s6"><span class="sn">7/8</span>
+<span class="tag tb">HTML</span><h2>Contact section with form + API quote</h2>
+<div class="two">
+<div class="code" style="margin:0;font-size:11px;">
+  <span class="tg2">&lt;section</span> <span class="at">id=</span><span class="val">"contact"</span><span class="tg2">&gt;</span><br>
+  &nbsp;&nbsp;<span class="tg2">&lt;h2&gt;</span>Get in touch<span class="tg2">&lt;/h2&gt;</span><br>
+  &nbsp;&nbsp;<span class="tg2">&lt;input</span> <span class="at">type=</span><span class="val">"text"</span> <span class="at">id=</span><span class="val">"visitorName"</span> <span class="at">placeholder=</span><span class="val">"Your name"</span><span class="tg2">&gt;</span><br>
+  &nbsp;&nbsp;<span class="tg2">&lt;button</span> <span class="at">onclick=</span><span class="val">"greetVisitor()"</span><span class="tg2">&gt;</span>Say hi!<span class="tg2">&lt;/button&gt;</span><br>
+  &nbsp;&nbsp;<span class="tg2">&lt;div</span> <span class="at">id=</span><span class="val">"greeting"</span><span class="tg2">&gt;&lt;/div&gt;</span><br>
+  &nbsp;&nbsp;<span class="tg2">&lt;div</span> <span class="at">id=</span><span class="val">"quote"</span><span class="tg2">&gt;&lt;/div&gt;</span><br>
+  <span class="tg2">&lt;/section&gt;</span><br><br>
+  <span class="kw">function</span> <span class="cd">greetVisitor</span>() {<br>
+  &nbsp;&nbsp;<span class="kw">let</span> name = document.<span class="cd">getElementById</span>(<span class="st">"visitorName"</span>).value;<br>
+  &nbsp;&nbsp;document.<span class="cd">getElementById</span>(<span class="st">"greeting"</span>).innerHTML = <span class="st">`Thanks for visiting, ${name}!`</span>;<br>
+  &nbsp;&nbsp;localStorage.<span class="cd">setItem</span>(<span class="st">"lastVisitor"</span>, name);<br>
+  }
+</div>
+<div>
+  <div class="preview" style="margin:0;">
+    <div style="font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:6px;">Get in touch</div>
+    <div style="border:1px solid var(--color-border-tertiary);border-radius:5px;padding:6px 10px;font-size:12px;color:var(--color-text-tertiary);margin-bottom:6px;">Your name</div>
+    <div style="background:#2a5fa5;color:white;padding:6px 14px;border-radius:6px;font-size:12px;display:inline-block;margin-bottom:8px;">Say hi!</div>
+    <div style="font-size:12px;color:#1D9E75;">Thanks for visiting, Sarah!</div>
+  </div>
+</div></div></div>
+
+<div class="slide" id="4s7"><span class="sn">8/8</span>
+<span class="tag tp">You built it!</span><h2>What you've achieved across 8 lessons</h2>
+<div class="two">
+<div>
+  <div class="card"><div class="ct">Skills you now have</div>
+  <ul class="pts">
+    <li><span class="dot db"></span><span>HTML — structure any webpage</span></li>
+    <li><span class="dot dg"></span><span>CSS &amp; Flexbox — make it look great</span></li>
+    <li><span class="dot da"></span><span>JavaScript — add interactivity</span></li>
+    <li><span class="dot dpi"></span><span>Forms — collect user input</span></li>
+    <li><span class="dot dpi"></span><span>localStorage — save data in the browser</span></li>
+    <li><span class="dot dtq"></span><span>fetch API — pull live data from the web</span></li>
+  </ul></div>
+</div>
+<div>
+  <div class="card"><div class="ct">What to learn next</div>
+  <ul class="pts">
+    <li><span class="dot dp"></span><span>React — build bigger apps with components</span></li>
+    <li><span class="dot dp"></span><span>Node.js — run JavaScript on the server</span></li>
+    <li><span class="dot dp"></span><span>Git &amp; GitHub — save and share your code</span></li>
+    <li><span class="dot dp"></span><span>Netlify — host your portfolio online for free</span></li>
+  </ul></div>
+  <div class="hl" style="background:#EAF3DE;border-color:#C0DD97;margin-top:6px;">
+    <div class="hl-t" style="color:#27500A;">Push your portfolio to GitHub today!</div>
+    <div class="hl-d">It's your developer identity — every commit shows your progress</div>
+  </div>
+</div></div></div>
+</div>
+
+<div class="nav">
+  <div class="pips" id="pips"></div>
+  <div class="nbts">
+    <span class="tbadge" id="tbadge">~0 min</span>
+    <button id="prev" onclick="go(-1)" disabled>← Prev</button>
+    <button id="next" onclick="go(1)">Next →</button>
+  </div>
+</div>
+
+<script>
+const times=["0 min","3 min","8 min","13 min","18 min","22 min","25 min","28 min","30 min"];
+const LABS=[
+  ["Title","Agenda","Form elements","Reading values","Error messages","Styling forms","Checkbox & radio","Challenge"],
+  ["Title","Agenda","What is localStorage?","Store objects","Persist to-do","Safe patterns","Dark mode","Challenge"],
+  ["Title","Agenda","What is an API?","fetch basics","Joke generator","Fetch a list","Error handling","Challenge"],
+  ["Title","Agenda","Page structure","Hero section","Projects","Dark mode toggle","Contact section","You did it!"]
+];
+let lesson=1,cur=0,total=8;
+function buildTabs(id,labels){const c=document.getElementById(id);labels.forEach((l,i)=>{const b=document.createElement('button');b.className='stab'+(i===0?' on':'');b.id=id+'t'+i;b.textContent=(i+1)+'. '+l;b.onclick=()=>jump(i);c.appendChild(b);});}
+for(let i=1;i<=4;i++) buildTabs('st'+i,LABS[i-1]);
+function buildPips(){const p=document.getElementById('pips');p.innerHTML='';for(let i=0;i<total;i++){const d=document.createElement('div');d.className='pip'+(i===cur?' on':'');d.id='pip'+i;p.appendChild(d);}}
+function updateNav(){
+  document.getElementById('prev').disabled=cur===0;
+  document.getElementById('next').disabled=cur===total-1;
+  document.getElementById('tbadge').textContent='~'+times[cur];
+  for(let i=0;i<total;i++){const p=document.getElementById('pip'+i);if(p)p.className='pip'+(i===cur?' on':'');const s=document.getElementById('st'+lesson+'t'+i);if(s)s.className='stab'+(i===cur?' on':'');}
+}
+function jump(n){document.getElementById(lesson+'s'+cur).classList.remove('on');cur=n;document.getElementById(lesson+'s'+cur).classList.add('on');updateNav();}
+function go(d){jump(Math.max(0,Math.min(total-1,cur+d)));}
+function sw(l){
+  document.getElementById(lesson+'s'+cur).classList.remove('on');
+  document.querySelectorAll('.ltab').forEach((t,i)=>t.classList.toggle('on',i===l-1));
+  document.getElementById('d'+lesson).classList.remove('on');
+  lesson=l;cur=0;
+  document.getElementById('d'+lesson).classList.add('on');
+  document.getElementById(lesson+'s0').classList.add('on');
+  buildPips();updateNav();
+}
+buildPips();updateNav();
+</script>

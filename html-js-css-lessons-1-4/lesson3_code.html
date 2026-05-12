@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lesson 3 – CSS Layouts & Flexbox</title>
+  <style>
+    /* ================================
+       LESSON 3: CSS LAYOUTS & FLEXBOX
+    ================================ */
+
+    * {
+      box-sizing: border-box; /* makes width/padding easier to work with */
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f4f8;
+    }
+
+    /* ================================
+       NAVBAR using Flexbox
+    ================================ */
+    .navbar {
+      display: flex;                  /* turn on flexbox */
+      justify-content: space-between; /* logo left, links right */
+      align-items: center;            /* vertically centered */
+      background-color: #2a5fa5;
+      padding: 14px 32px;
+    }
+
+    .navbar .logo {
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .navbar .nav-links {
+      display: flex;
+      gap: 24px; /* space between links */
+    }
+
+    .navbar .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 15px;
+    }
+
+    .navbar .nav-links a:hover {
+      text-decoration: underline;
+    }
+
+    /* ================================
+       PAGE CONTENT
+    ================================ */
+    .page-content {
+      padding: 40px 32px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      color: #2a5fa5;
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+      margin: 32px 0 16px;
+      border-left: 4px solid #2a5fa5;
+      padding-left: 12px;
+    }
+
+    /* ================================
+       BOX MODEL DEMO
+    ================================ */
+    .box-model-demo {
+      background: #ffeaa7;
+      padding: 20px;             /* inside space */
+      border: 3px solid #e17055;  /* outline */
+      margin: 16px 0;             /* outside space */
+      border-radius: 8px;
+      font-size: 14px;
+      color: #333;
+      max-width: 320px;
+    }
+
+    /* ================================
+       PROFILE CARDS using Flexbox
+    ================================ */
+    .card-row {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap; /* wraps to next line on small screens */
+      justify-content: flex-start;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      padding: 24px 20px;
+      text-align: center;
+      width: 200px;
+      flex-shrink: 0;
+    }
+
+    .avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%; /* makes it a circle */
+      margin: 0 auto 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: bold;
+      color: white;
+    }
+
+    .card h3 {
+      font-size: 16px;
+      color: #333;
+      margin-bottom: 4px;
+    }
+
+    .card p {
+      font-size: 13px;
+      color: #888;
+      margin-bottom: 14px;
+    }
+
+    .btn {
+      background: #2a5fa5;
+      color: white;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .btn:hover { background: #1e4a87; }
+
+    /* ================================
+       FLEXBOX JUSTIFY-CONTENT DEMOS
+    ================================ */
+    .flex-demo {
+      background: #eef2f7;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+
+    .flex-demo-label {
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 6px;
+    }
+
+    .flex-demo .flex-row {
+      display: flex;
+      gap: 8px;
+      background: white;
+      border-radius: 6px;
+      padding: 8px;
+    }
+
+    .flex-box {
+      background: #2a5fa5;
+      color: white;
+      border-radius: 4px;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    /* ================================
+       FOOTER using Flexbox
+    ================================ */
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #2c3e50;
+      color: #ccc;
+      padding: 20px 32px;
+      font-size: 13px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo">MyWebsite</div>
+    <div class="nav-links">
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <a href="#">Projects</a>
+      <a href="#">Contact</a>
+    </div>
+  </nav>
+
+  <div class="page-content">
+
+    <h1>CSS Layouts & Flexbox</h1>
+    <p style="color:#666;margin-top:6px;">Lesson 3 — making pages look great</p>
+
+    <!-- BOX MODEL -->
+    <div class="section-title">The Box Model</div>
+    <p style="color:#555;font-size:14px;margin-bottom:12px;">
+      Every element is a box. This box has <strong>padding</strong> (inside),
+      a <strong>border</strong> (outline), and <strong>margin</strong> (outside).
+    </p>
+    <div class="box-model-demo">
+      This box has:<br>
+      padding: 20px — space inside<br>
+      border: 3px solid — the orange outline<br>
+      margin: 16px — space outside pushing other content away
+    </div>
+
+    <!-- FLEXBOX DEMOS -->
+    <div class="section-title">Flexbox — justify-content</div>
+
+    <div class="flex-demo">
+      <div class="flex-demo-label">flex-start (default)</div>
+      <div class="flex-row" style="justify-content:flex-start;">
+        <div class="flex-box">A</div>
+        <div class="flex-box">B</div>
+        <div class="flex-box">C</div>
+      </div>
+    </div>
+
+    <div class="flex-demo">
+      <div class="flex-demo-label">center</div>
+      <div class="flex-row" style="justify-content:center;">
+        <div class="flex-box">A</div>
+        <div class="flex-box">B</div>
+        <div class="flex-box">C</div>
+      </div>
+    </div>
+
+    <div class="flex-demo">
+      <div class="flex-demo-label">space-between</div>
+      <div class="flex-row" style="justify-content:space-between;">
+        <div class="flex-box">A</div>
+        <div class="flex-box">B</div>
+        <div class="flex-box">C</div>
+      </div>
+    </div>
+
+    <div class="flex-demo">
+      <div class="flex-demo-label">space-around</div>
+      <div class="flex-row" style="justify-content:space-around;">
+        <div class="flex-box">A</div>
+        <div class="flex-box">B</div>
+        <div class="flex-box">C</div>
+      </div>
+    </div>
+
+    <!-- PROFILE CARDS -->
+    <div class="section-title">Profile Cards (Flexbox row)</div>
+
+    <div class="card-row">
+      <div class="card">
+        <div class="avatar" style="background:#2a5fa5;">S</div>
+        <h3>Sarah Tan</h3>
+        <p>ITE Student</p>
+        <button class="btn">Follow</button>
+      </div>
+
+      <div class="card">
+        <div class="avatar" style="background:#27ae60;">J</div>
+        <h3>James Lim</h3>
+        <p>Web Developer</p>
+        <button class="btn">Follow</button>
+      </div>
+
+      <div class="card">
+        <div class="avatar" style="background:#e67e22;">M</div>
+        <h3>Mei Lin</h3>
+        <p>UI Designer</p>
+        <button class="btn">Follow</button>
+      </div>
+    </div>
+
+    <p style="color:#888;font-size:13px;margin-top:16px;">
+      Try resizing your browser window — the cards wrap to the next line
+      because of <code>flex-wrap: wrap</code>!
+    </p>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div>MyWebsite &copy; 2025</div>
+    <div>Built with HTML &amp; CSS</div>
+  </footer>
+
+  <!--
+    CHALLENGE: Try these yourself!
+    1. Add a 4th profile card with your own initial and name
+    2. Change the navbar background colour
+    3. Add flex-direction: column to .card-row — what happens?
+    4. Add a hover effect to .card: try transform: scale(1.02)
+    5. Change justify-content on .card-row to center
+  -->
+
+</body>
+</html>

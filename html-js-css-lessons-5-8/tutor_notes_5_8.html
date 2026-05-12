@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Tutor Notes — Lessons 5–8</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Arial,sans-serif;background:#f0f4f8;color:#333;}
+.topnav{display:flex;gap:6px;padding:12px 18px;background:#2a5fa5;position:sticky;top:0;z-index:100;flex-wrap:wrap;}
+.topnav button{font-size:13px;padding:6px 14px;border-radius:20px;border:1.5px solid rgba(255,255,255,0.4);background:transparent;color:white;cursor:pointer;}
+.topnav button.on{background:white;color:#2a5fa5;font-weight:bold;}
+.topnav .title{color:white;font-weight:bold;font-size:14px;display:flex;align-items:center;margin-right:8px;}
+.lesson{display:none;padding:20px 18px;max-width:940px;margin:0 auto;}
+.lesson.on{display:block;}
+.lhdr{border-radius:12px;padding:18px 22px;margin-bottom:18px;color:white;}
+.lhdr h1{font-size:19px;margin-bottom:4px;}
+.lhdr p{font-size:13px;opacity:.85;}
+.lhdr .meta{display:flex;gap:12px;margin-top:10px;flex-wrap:wrap;}
+.lhdr .meta span{font-size:12px;background:rgba(255,255,255,0.2);padding:3px 10px;border-radius:20px;}
+.sc{background:white;border-radius:12px;border:1px solid #ddd;padding:18px 22px;margin-bottom:16px;}
+.sc h2{font-size:16px;color:#2a5fa5;margin-bottom:10px;}
+.sc h3{font-size:13px;color:#444;margin:12px 0 5px;font-weight:bold;}
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px;}
+th{background:#f0f4f8;text-align:left;padding:7px 9px;color:#555;font-weight:bold;border-bottom:2px solid #ddd;}
+td{padding:7px 9px;border-bottom:1px solid #f0f0f0;vertical-align:top;}
+tr:last-child td{border-bottom:none;}
+td:first-child{font-weight:bold;color:#2a5fa5;white-space:nowrap;}
+.alert{border-radius:8px;padding:9px 13px;font-size:13px;margin:6px 0;line-height:1.6;}
+.tip{background:#d5f5e3;border-left:4px solid #27ae60;color:#1a4a2a;}
+.warn{background:#fef9e7;border-left:4px solid #f39c12;color:#6e4a00;}
+.info{background:#e6f1fb;border-left:4px solid #2a5fa5;color:#0c3a6a;}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px;}
+@media(max-width:580px){.two{grid-template-columns:1fr;}}
+.cl{list-style:none;display:flex;flex-direction:column;gap:5px;margin-top:6px;}
+.cl li{display:flex;gap:9px;font-size:13px;align-items:flex-start;line-height:1.5;}
+.cl li::before{content:"☐";color:#2a5fa5;font-size:13px;flex-shrink:0;}
+.code{background:#f4f4f4;border-radius:6px;border:1px solid #e0e0e0;padding:9px 13px;font-family:'Courier New',monospace;font-size:12px;line-height:1.8;color:#222;margin:7px 0;overflow-x:auto;}
+.kw{color:#7F77DD;}.st{color:#1D9E75;}.cd{color:#D85A30;}.cm{color:#999;}.at{color:#378ADD;}
+.timing{display:flex;gap:5px;flex-wrap:wrap;margin:8px 0;}
+.tb{border-radius:6px;padding:5px 9px;font-size:12px;text-align:center;min-width:76px;}
+</style>
+</head>
+<body>
+
+<div class="topnav">
+  <div class="title">Tutor Notes 5–8</div>
+  <button class="on" onclick="show(1)">Lesson 5 — Forms</button>
+  <button onclick="show(2)">Lesson 6 — localStorage</button>
+  <button onclick="show(3)">Lesson 7 — Fetch &amp; APIs</button>
+  <button onclick="show(4)">Lesson 8 — Final Project</button>
+</div>
+
+<!-- ====== L5 ====== -->
+<div class="lesson on" id="l1">
+  <div class="lhdr" style="background:#2a5fa5;">
+    <h1>Lesson 5 — HTML Forms &amp; JS Validation</h1>
+    <p>Student builds a sign-up form with styled inputs, real-time validation and inline error messages.</p>
+    <div class="meta"><span>Duration: ~30 min</span><span>File: signup.html</span><span>Prerequisite: Lessons 1–4</span></div>
+  </div>
+
+  <div class="sc"><h2>Learning objectives</h2>
+  <ul class="cl">
+    <li>Build a form using &lt;form&gt;, &lt;input&gt;, &lt;label&gt;, &lt;button&gt;</li>
+    <li>Use at least 4 different input types correctly</li>
+    <li>Read form values with .value in JavaScript</li>
+    <li>Validate fields and show inline error messages</li>
+    <li>Use return to stop a function when validation fails</li>
+    <li>Style inputs with CSS including :focus state</li>
+  </ul></div>
+
+  <div class="sc"><h2>Lesson timing</h2>
+  <div class="timing">
+    <div class="tb" style="background:#dbeeff;color:#0a4a8a;">0–5 min<br><strong>Form basics</strong></div>
+    <div class="tb" style="background:#dbeeff;color:#0a4a8a;">5–11 min<br><strong>Input types</strong></div>
+    <div class="tb" style="background:#fff0d6;color:#7a4400;">11–19 min<br><strong>JS validation</strong></div>
+    <div class="tb" style="background:#fff0d6;color:#7a4400;">19–26 min<br><strong>Error messages</strong></div>
+    <div class="tb" style="background:#eeeeff;color:#3a2a99;">26–30 min<br><strong>Challenge</strong></div>
+  </div></div>
+
+  <div class="sc"><h2>Teaching notes</h2>
+    <h3>Slide 3 — Form element and input types</h3>
+    <div class="alert tip">Start by showing a real sign-up form (Gmail, Instagram) and asking her to identify each input type. This makes the abstract concrete before writing any code.</div>
+    <div class="alert warn">Always use type="button" on your submit button, not type="submit". The default submit behaviour reloads the page — confusing for beginners who haven't learned about form submission yet.</div>
+
+    <h3>Slide 4 — Reading form values</h3>
+    <div class="alert info">Explain .value vs .innerHTML: .value reads what the user typed into an input. .innerHTML changes what's displayed in a tag. Students often mix these up.</div>
+    <div class="alert tip">Demo in console: type into a real form field, then run document.getElementById("fieldId").value — she'll see it update live as she types.</div>
+
+    <h3>Slide 5 — Error messages on the page</h3>
+    <div class="alert warn">Explain why inline errors are better than alert() — alerts block the page and users can't see the form behind them. Professional apps always use inline messages.</div>
+    <div class="alert tip">Show her how to add a red border to an invalid input: input.style.borderColor = "red". Then clear it when valid: input.style.borderColor = "".</div>
+
+    <h3>Slide 7 — Checkbox and radio</h3>
+    <div class="alert warn">Radio buttons MUST have the same name attribute to work as a group — otherwise they don't exclude each other. This is the most common radio button mistake.</div>
+  </div>
+
+  <div class="sc"><h2>Common errors to watch for</h2>
+  <table>
+    <tr><th>Error</th><th>Likely cause</th><th>How to fix</th></tr>
+    <tr><td>Form reloads page</td><td>Using type="submit" instead of type="button"</td><td>Change to type="button" or use e.preventDefault()</td></tr>
+    <tr><td>.value returns empty string</td><td>Wrong id or capitalisation</td><td>JS ids are case-sensitive — check exactly</td></tr>
+    <tr><td>Checkbox always false</td><td>Using .value instead of .checked</td><td>Checkboxes use .checked (boolean), not .value</td></tr>
+    <tr><td>Radio buttons don't exclude each other</td><td>Different name attributes</td><td>All radio buttons in a group must share the same name</td></tr>
+    <tr><td>Validation runs even on empty submit</td><td>Missing return after alert</td><td>Add return after each validation failure to stop the function</td></tr>
+  </table></div>
+
+  <div class="sc"><h2>Key patterns to reinforce</h2>
+  <div class="two">
+    <div>
+      <h3>Validation pattern</h3>
+      <div class="code">
+        <span class="kw">function</span> <span class="cd">validate</span>() {<br>
+        &nbsp;&nbsp;<span class="kw">let</span> val = document.<span class="cd">getElementById</span>(<span class="st">"field"</span>).value;<br>
+        &nbsp;&nbsp;<span class="kw">if</span> (val.<span class="cd">trim</span>() === <span class="st">""</span>) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;showError(<span class="st">"field"</span>, <span class="st">"Required!"</span>);<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return false</span>;<br>
+        &nbsp;&nbsp;}<br>
+        &nbsp;&nbsp;<span class="kw">return true</span>;<br>
+        }
+      </div>
+    </div>
+    <div>
+      <h3>Show/hide error helper</h3>
+      <div class="code">
+        <span class="kw">function</span> <span class="cd">showError</span>(id, msg) {<br>
+        &nbsp;&nbsp;document.<span class="cd">getElementById</span>(id + <span class="st">"Err"</span>)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;.innerHTML = msg;<br>
+        }<br>
+        <span class="kw">function</span> <span class="cd">clearError</span>(id) {<br>
+        &nbsp;&nbsp;document.<span class="cd">getElementById</span>(id + <span class="st">"Err"</span>)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;.innerHTML = <span class="st">""</span>;<br>
+        }
+      </div>
+    </div>
+  </div></div>
+
+  <div class="sc"><h2>Wrap-up questions</h2>
+  <ul class="cl">
+    <li>"What's the difference between .value and .checked?"</li>
+    <li>"Why do we use return inside a validation function?"</li>
+    <li>"What does .trim() do and why is it useful?"</li>
+    <li>"How would you check if two passwords match?"</li>
+  </ul></div>
+</div>
+
+<!-- ====== L6 ====== -->
+<div class="lesson" id="l2">
+  <div class="lhdr" style="background:#993556;">
+    <h1>Lesson 6 — localStorage</h1>
+    <p>Student learns to persist data between page reloads using localStorage with JSON, and builds a dark mode toggle.</p>
+    <div class="meta"><span>Duration: ~30 min</span><span>File: todo.html (upgraded)</span><span>Prerequisite: Lessons 1–5</span></div>
+  </div>
+
+  <div class="sc"><h2>Learning objectives</h2>
+  <ul class="cl">
+    <li>Explain what localStorage is and when to use it</li>
+    <li>Use setItem(), getItem(), removeItem() and clear()</li>
+    <li>Convert objects/arrays to strings with JSON.stringify()</li>
+    <li>Parse saved strings back with JSON.parse()</li>
+    <li>Handle missing keys safely with || fallback</li>
+    <li>Implement a dark mode that persists across reloads</li>
+  </ul></div>
+
+  <div class="sc"><h2>Lesson timing</h2>
+  <div class="timing">
+    <div class="tb" style="background:#fbeaf0;color:#72243e;">0–5 min<br><strong>What is it?</strong></div>
+    <div class="tb" style="background:#fbeaf0;color:#72243e;">5–12 min<br><strong>Get &amp; set</strong></div>
+    <div class="tb" style="background:#fff0d6;color:#7a4400;">12–20 min<br><strong>Store objects</strong></div>
+    <div class="tb" style="background:#fff0d6;color:#7a4400;">20–28 min<br><strong>Persist to-do</strong></div>
+    <div class="tb" style="background:#eeeeff;color:#3a2a99;">28–30 min<br><strong>Challenge</strong></div>
+  </div></div>
+
+  <div class="sc"><h2>Teaching notes</h2>
+    <h3>Slide 3 — What is localStorage?</h3>
+    <div class="alert tip">Open DevTools → Application → Local Storage before writing any code. Show her the empty storage, then type localStorage.setItem("test", "hello") in the console and watch it appear. Very satisfying "wow" moment.</div>
+    <div class="alert info">Contrast with sessionStorage (clears when tab closes) and cookies (sent to server). localStorage is the simplest — right tool for this lesson.</div>
+
+    <h3>Slide 4 — Storing objects with JSON</h3>
+    <div class="alert warn">This is the hardest concept in the lesson. Take extra time here. The analogy that works: JSON.stringify is like packing your object into a box. JSON.parse is unpacking it. The box (localStorage) only holds text.</div>
+    <div class="alert tip">Demo what happens without JSON: localStorage.setItem("obj", {name:"Sarah"}) — it saves "[object Object]". Then show JSON.stringify fixes it.</div>
+
+    <h3>Slide 5 — Persisting the to-do list</h3>
+    <div class="alert info">The key insight: call saveTasks() immediately after any change (add, delete, toggle). Then on page load, the first line reads back from storage. This is the pattern used in real apps.</div>
+
+    <h3>Slide 7 — Dark mode</h3>
+    <div class="alert tip">classList.toggle() is a great teaching moment — it's elegant and students love how little code it needs. Compare to the if/else version to show why toggle is better.</div>
+  </div>
+
+  <div class="sc"><h2>Common errors to watch for</h2>
+  <table>
+    <tr><th>Error</th><th>Likely cause</th><th>How to fix</th></tr>
+    <tr><td>getItem returns null</td><td>Key doesn't exist yet (first visit)</td><td>Use || [] or || "" as fallback default</td></tr>
+    <tr><td>JSON.parse fails</td><td>Corrupt or empty string in storage</td><td>Wrap in try/catch or check if value is null first</td></tr>
+    <tr><td>Object saved as "[object Object]"</td><td>Forgot JSON.stringify before setItem</td><td>Always stringify objects before saving</td></tr>
+    <tr><td>Dark mode resets on refresh</td><td>Forgot to read localStorage on page load</td><td>Add getItem("dark") check at top of script</td></tr>
+    <tr><td>Tasks don't persist</td><td>saveTasks() not called after every change</td><td>Add saveTasks() call inside addTask() and deleteTask()</td></tr>
+  </table></div>
+
+  <div class="sc"><h2>Key patterns to reinforce</h2>
+  <div class="two">
+    <div>
+      <h3>Safe load pattern</h3>
+      <div class="code">
+        <span class="cm">// Always handle missing key</span><br>
+        <span class="kw">let</span> tasks = JSON.<span class="cd">parse</span>(<br>
+        &nbsp;&nbsp;localStorage.<span class="cd">getItem</span>(<span class="st">"tasks"</span>)<br>
+        ) || [];
+      </div>
+    </div>
+    <div>
+      <h3>Save after every change</h3>
+      <div class="code">
+        <span class="kw">function</span> <span class="cd">save</span>() {<br>
+        &nbsp;&nbsp;localStorage.<span class="cd">setItem</span>(<span class="st">"tasks"</span>,<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;JSON.<span class="cd">stringify</span>(tasks));<br>
+        }<br>
+        <span class="cm">// Call after add, delete, toggle</span>
+      </div>
+    </div>
+  </div></div>
+
+  <div class="sc"><h2>Wrap-up questions</h2>
+  <ul class="cl">
+    <li>"What happens if you call getItem() on a key that doesn't exist?"</li>
+    <li>"Why do we need JSON.stringify() before saving an array?"</li>
+    <li>"What's the difference between localStorage and sessionStorage?"</li>
+    <li>"How would you save the user's preferred font size?"</li>
+  </ul></div>
+</div>
+
+<!-- ====== L7 ====== -->
+<div class="lesson" id="l3">
+  <div class="lhdr" style="background:#085041;">
+    <h1>Lesson 7 — Fetch API &amp; Live Data</h1>
+    <p>Student learns to call real APIs using fetch(), handle JSON responses, and build a joke generator and Pokemon lookup app.</p>
+    <div class="meta"><span>Duration: ~30 min</span><span>Files: jokes.html, pokemon.html</span><span>Prerequisite: Lessons 1–6</span></div>
+  </div>
+
+  <div class="sc"><h2>Learning objectives</h2>
+  <ul class="cl">
+    <li>Explain what an API is using the waiter analogy</li>
+    <li>Use fetch() to request data from a URL</li>
+    <li>Chain .then() to parse JSON and use the response</li>
+    <li>Use .catch() to handle network errors</li>
+    <li>Display API data on the page using innerHTML</li>
+    <li>Use template literals to build HTML strings cleanly</li>
+  </ul></div>
+
+  <div class="sc"><h2>Lesson timing</h2>
+  <div class="timing">
+    <div class="tb" style="background:#d5f5e3;color:#1a6b3a;">0–5 min<br><strong>API concept</strong></div>
+    <div class="tb" style="background:#d5f5e3;color:#1a6b3a;">5–12 min<br><strong>fetch basics</strong></div>
+    <div class="tb" style="background:#fff0d6;color:#7a4400;">12–19 min<br><strong>Joke app</strong></div>
+    <div class="tb" style="background:#fff0d6;color:#7a4400;">19–27 min<br><strong>Fetch a list</strong></div>
+    <div class="tb" style="background:#eeeeff;color:#3a2a99;">27–30 min<br><strong>Challenge</strong></div>
+  </div></div>
+
+  <div class="sc"><h2>Teaching notes</h2>
+    <h3>Slide 3 — What is an API?</h3>
+    <div class="alert tip">Open Network tab in DevTools, then go to a weather website. Show her the API calls happening in real time — she's already using APIs every day without knowing it. Very eye-opening moment.</div>
+    <div class="alert info">The waiter analogy: you (the app) give your order to the waiter (API). The waiter goes to the kitchen (server) and brings back your food (data). You never go to the kitchen yourself.</div>
+
+    <h3>Slide 4 — fetch basics</h3>
+    <div class="alert warn">fetch is asynchronous — this is a big concept. The code after fetch() runs immediately, before the data arrives. That's why we put our display code inside .then(). Don't skip this explanation.</div>
+    <div class="alert tip">Start in the DevTools console: fetch("https://official-joke-api.appspot.com/random_joke").then(r=>r.json()).then(console.log). Watch the joke object appear. No HTML needed yet!</div>
+
+    <h3>Slide 5 — Joke generator</h3>
+    <div class="alert info">Show the "Loading..." pattern explicitly. Without it, there's an awkward gap where nothing appears. This is standard UX in every app — always show the user something is happening.</div>
+
+    <h3>Slide 6 — Template literals</h3>
+    <div class="alert tip">This is a great quality-of-life upgrade. Show the before (string concatenation with +) vs after (template literal with backticks). Students always prefer backticks once they see them. Mention the backtick key location (top-left on most keyboards).</div>
+
+    <h3>Slide 8 — Pokemon challenge</h3>
+    <div class="alert warn">The PokeAPI is free and doesn't require a key — perfect for beginners. Remind her to .toLowerCase() the input before fetching — "Pikachu" and "pikachu" give different results.</div>
+  </div>
+
+  <div class="sc"><h2>Common errors to watch for</h2>
+  <table>
+    <tr><th>Error</th><th>Likely cause</th><th>How to fix</th></tr>
+    <tr><td>CORS error in console</td><td>API doesn't allow browser requests</td><td>Switch to a CORS-friendly API like JSONPlaceholder or PokeAPI</td></tr>
+    <tr><td>data is undefined</td><td>Forgot to call .json() or returned wrong thing</td><td>Check the .then() chain — must return response.json()</td></tr>
+    <tr><td>fetch runs but nothing shows</td><td>Code after .then() runs before data arrives</td><td>All display code must go inside the .then() callback</td></tr>
+    <tr><td>Pokemon not found error</td><td>Capitalised name or trailing space</td><td>Use .toLowerCase().trim() before building the URL</td></tr>
+    <tr><td>Template literal not working</td><td>Using quotes instead of backticks</td><td>Template literals use backticks ` not single or double quotes</td></tr>
+  </table></div>
+
+  <div class="sc"><h2>Key patterns to reinforce</h2>
+  <div class="two">
+    <div>
+      <h3>Standard fetch pattern</h3>
+      <div class="code">
+        fetch(url)<br>
+        &nbsp;&nbsp;.<span class="cd">then</span>(r =&gt; r.<span class="cd">json</span>())<br>
+        &nbsp;&nbsp;.<span class="cd">then</span>(data =&gt; {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// use data here</span><br>
+        &nbsp;&nbsp;})<br>
+        &nbsp;&nbsp;.<span class="cd">catch</span>(err =&gt; {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// handle error here</span><br>
+        &nbsp;&nbsp;});
+      </div>
+    </div>
+    <div>
+      <h3>Template literal HTML</h3>
+      <div class="code">
+        list.innerHTML += <span class="st">`</span><br>
+        &nbsp;&nbsp;<span class="st">&lt;div class="card"&gt;</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="st">&lt;h3&gt;${item.title}&lt;/h3&gt;</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="st">&lt;p&gt;${item.body}&lt;/p&gt;</span><br>
+        &nbsp;&nbsp;<span class="st">&lt;/div&gt;</span><span class="st">`</span>;
+      </div>
+    </div>
+  </div></div>
+
+  <div class="sc"><h2>Wrap-up questions</h2>
+  <ul class="cl">
+    <li>"What does .then() do and why do we need it?"</li>
+    <li>"What's the difference between fetch() and a normal function call?"</li>
+    <li>"Why do we always add .catch()?"</li>
+    <li>"How would you fetch and display the top 10 Pokemon?"</li>
+  </ul></div>
+</div>
+
+<!-- ====== L8 ====== -->
+<div class="lesson" id="l4">
+  <div class="lhdr" style="background:#444441;">
+    <h1>Lesson 8 — Final Project: Portfolio Website</h1>
+    <p>Student builds a complete multi-section portfolio website using all skills from Lessons 1–7.</p>
+    <div class="meta"><span>Duration: ~30 min</span><span>Files: index.html, style.css, app.js</span><span>Prerequisite: All lessons</span></div>
+  </div>
+
+  <div class="sc"><h2>Learning objectives</h2>
+  <ul class="cl">
+    <li>Structure a multi-section webpage with &lt;nav&gt;, &lt;section&gt;, &lt;footer&gt;</li>
+    <li>Link a separate CSS file with &lt;link&gt; and a separate JS file with &lt;script&gt;</li>
+    <li>Apply Flexbox to the navbar and project card grid</li>
+    <li>Implement dark mode using classList.toggle and localStorage</li>
+    <li>Add smooth scroll to anchor links</li>
+    <li>Include a contact section using form validation from Lesson 5</li>
+  </ul></div>
+
+  <div class="sc"><h2>Lesson timing</h2>
+  <div class="timing">
+    <div class="tb" style="background:#dbeeff;color:#0a4a8a;">0–5 min<br><strong>Plan structure</strong></div>
+    <div class="tb" style="background:#d5f5e3;color:#1a6b3a;">5–12 min<br><strong>Navbar + hero</strong></div>
+    <div class="tb" style="background:#fff0d6;color:#7a4400;">12–19 min<br><strong>Projects grid</strong></div>
+    <div class="tb" style="background:#fbeaf0;color:#72243e;">19–26 min<br><strong>Contact form</strong></div>
+    <div class="tb" style="background:#eeeeff;color:#3a2a99;">26–30 min<br><strong>Polish &amp; GitHub</strong></div>
+  </div></div>
+
+  <div class="sc"><h2>Teaching notes</h2>
+    <h3>Slide 3 — Page structure</h3>
+    <div class="alert info">Explain the 3-file approach — this is how real projects are structured. index.html is the skeleton, style.css is the skin, app.js is the brain. Keeping them separate makes the code much easier to manage.</div>
+    <div class="alert tip">Use &lt;section&gt; instead of &lt;div&gt; for major page areas — it's more semantic and means something to browsers and screen readers. Each section gets an id so the navbar links can scroll to it.</div>
+
+    <h3>Slide 4 — Hero section</h3>
+    <div class="alert tip">Encourage her to personalise every detail — her real name, real interests, her own colour scheme. The more personal it is, the more motivated she'll be. This is HER portfolio.</div>
+    <div class="alert info">Smooth scrolling tip: add scroll-behavior: smooth to the body in CSS. Then href="#projects" on a link will scroll smoothly to that section — no JavaScript needed!</div>
+
+    <h3>Slide 5 — Projects section</h3>
+    <div class="alert tip">Point out that she already has real projects from previous lessons — About Me page, JS Playground, To-Do App, Joke Generator. These go in the projects section right now. That's a real portfolio!</div>
+
+    <h3>Slide 6 — Dark mode</h3>
+    <div class="alert warn">CSS nesting with body.dark .card is a powerful pattern. Explain that adding one class to body can change the entire page's colour scheme — that's why dark mode is only a few lines of JS.</div>
+
+    <h3>Slide 8 — Wrap up</h3>
+    <div class="alert tip">End the lesson by pushing the portfolio to GitHub Pages — it's free and the site goes live at username.github.io/portfolio. Show her how in 5 minutes. Seeing your work live on the internet is incredibly motivating.</div>
+  </div>
+
+  <div class="sc"><h2>Common errors to watch for</h2>
+  <table>
+    <tr><th>Error</th><th>Likely cause</th><th>How to fix</th></tr>
+    <tr><td>CSS not loading</td><td>Wrong path in &lt;link href&gt;</td><td>File must be in same folder — use href="style.css" not a full path</td></tr>
+    <tr><td>JS not loading</td><td>Script tag in &lt;head&gt; not &lt;/body&gt;</td><td>Move &lt;script src="app.js"&gt; to just before &lt;/body&gt;</td></tr>
+    <tr><td>Navbar links don't scroll</td><td>Missing # in href or missing id on section</td><td>href="#projects" must match id="projects" exactly</td></tr>
+    <tr><td>Dark mode flashes on load</td><td>Theme applied after page renders</td><td>Apply dark class in first line of JS before anything renders</td></tr>
+    <tr><td>Cards not side by side</td><td>Forgot display:flex on .card-row container</td><td>Flexbox applies to the PARENT — check which element has the class</td></tr>
+  </table></div>
+
+  <div class="sc"><h2>Putting it all together — skills checklist</h2>
+  <table>
+    <tr><th>Lesson</th><th>Skill used in portfolio</th><th>Where</th></tr>
+    <tr><td>Lesson 1</td><td>HTML structure and tags</td><td>Every section</td></tr>
+    <tr><td>Lesson 2</td><td>CSS styling and classes</td><td>style.css throughout</td></tr>
+    <tr><td>Lesson 3</td><td>Flexbox layout</td><td>Navbar + project cards</td></tr>
+    <tr><td>Lesson 4</td><td>Arrays, events, DOM</td><td>JS greeting on contact</td></tr>
+    <tr><td>Lesson 5</td><td>Form validation</td><td>Contact section</td></tr>
+    <tr><td>Lesson 6</td><td>localStorage</td><td>Dark mode + last visitor</td></tr>
+    <tr><td>Lesson 7</td><td>fetch API</td><td>Optional: live quote in hero</td></tr>
+  </table></div>
+
+  <div class="sc"><h2>After this lesson — what to suggest next</h2>
+  <ul class="cl">
+    <li>Deploy to GitHub Pages — free hosting at username.github.io</li>
+    <li>Learn React — component-based way to build larger apps</li>
+    <li>Learn Node.js — run JavaScript on the server side</li>
+    <li>Try a full-stack project — build a simple REST API with Express</li>
+    <li>CSS animations — add transitions and keyframe animations to the portfolio</li>
+  </ul></div>
+
+  <div class="sc"><h2>Final wrap-up questions</h2>
+  <ul class="cl">
+    <li>"Can you explain what each of your 3 files does?"</li>
+    <li>"Which part of web development do you enjoy most — HTML, CSS or JavaScript?"</li>
+    <li>"What's one feature you'd like to add to your portfolio?"</li>
+    <li>"What do you want to build next?"</li>
+  </ul></div>
+</div>
+
+<script>
+function show(n){
+  document.querySelectorAll('.lesson').forEach(l=>l.classList.remove('on'));
+  document.querySelectorAll('.topnav button').forEach(b=>b.classList.remove('on'));
+  document.getElementById('l'+n).classList.add('on');
+  document.querySelectorAll('.topnav button')[n-1].classList.add('on');
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>

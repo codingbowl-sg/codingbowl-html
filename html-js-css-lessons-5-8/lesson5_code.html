@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lesson 5 – Sign Up Form</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: #f0f4f8; padding: 40px 20px; }
+    h1 { color: #2a5fa5; text-align: center; margin-bottom: 6px; }
+    .subtitle { text-align: center; color: #888; font-size: 14px; margin-bottom: 30px; }
+    .form-card {
+      background: white; border-radius: 12px; border: 1px solid #ddd;
+      padding: 28px; max-width: 420px; margin: 0 auto;
+    }
+    label {
+      display: block; font-size: 14px; font-weight: bold;
+      color: #444; margin-bottom: 4px;
+    }
+    input[type="text"], input[type="email"], input[type="password"], input[type="number"] {
+      display: block; width: 100%; padding: 10px 12px;
+      border: 1px solid #ddd; border-radius: 7px;
+      font-size: 15px; margin-bottom: 4px; outline: none;
+      transition: border-color 0.2s;
+    }
+    input:focus { border-color: #2a5fa5; }
+    input.invalid { border-color: #e74c3c; }
+    input.valid { border-color: #27ae60; }
+    .error-msg {
+      font-size: 12px; color: #e74c3c;
+      min-height: 18px; margin-bottom: 12px;
+    }
+    .success-msg {
+      font-size: 12px; color: #27ae60;
+      min-height: 18px; margin-bottom: 12px;
+    }
+    .checkbox-row {
+      display: flex; align-items: center; gap: 10px;
+      margin: 8px 0 4px;
+    }
+    .checkbox-row input { width: auto; margin: 0; }
+    .checkbox-row label { margin: 0; font-weight: normal; font-size: 14px; }
+    .btn-submit {
+      width: 100%; background: #2a5fa5; color: white;
+      border: none; padding: 12px; border-radius: 7px;
+      font-size: 16px; cursor: pointer; margin-top: 8px;
+    }
+    .btn-submit:hover { background: #1e4a87; }
+    .success-banner {
+      display: none; background: #d5f5e3; border: 1px solid #27ae60;
+      border-radius: 10px; padding: 20px; text-align: center;
+      color: #1a6b3a; font-size: 16px;
+    }
+    .radio-group { display: flex; gap: 20px; margin: 6px 0 12px; }
+    .radio-group label { font-weight: normal; display: flex; align-items: center; gap: 6px; }
+    .password-row { position: relative; }
+    .show-pw {
+      position: absolute; right: 10px; top: 10px;
+      background: none; border: none; color: #888;
+      font-size: 13px; cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Create an account</h1>
+  <p class="subtitle">Lesson 5 — Forms &amp; Validation</p>
+
+  <div class="form-card" id="formCard">
+
+    <!-- Full Name -->
+    <label for="fullName">Full name</label>
+    <input type="text" id="fullName" placeholder="e.g. Sarah Tan"
+           oninput="clearErr('fullName')">
+    <div class="error-msg" id="fullNameErr"></div>
+
+    <!-- Email -->
+    <label for="email">Email address</label>
+    <input type="email" id="email" placeholder="e.g. sarah@gmail.com"
+           oninput="clearErr('email')">
+    <div class="error-msg" id="emailErr"></div>
+
+    <!-- Password -->
+    <label for="password">Password</label>
+    <div class="password-row">
+      <input type="password" id="password" placeholder="Minimum 6 characters"
+             oninput="clearErr('password')">
+      <button class="show-pw" onclick="togglePw('password', this)">Show</button>
+    </div>
+    <div class="error-msg" id="passwordErr"></div>
+
+    <!-- Confirm Password -->
+    <label for="confirm">Confirm password</label>
+    <div class="password-row">
+      <input type="password" id="confirm" placeholder="Re-enter your password"
+             oninput="clearErr('confirm')">
+      <button class="show-pw" onclick="togglePw('confirm', this)">Show</button>
+    </div>
+    <div class="error-msg" id="confirmErr"></div>
+
+    <!-- Gender (radio) -->
+    <label>Gender</label>
+    <div class="radio-group">
+      <label><input type="radio" name="gender" value="female"> Female</label>
+      <label><input type="radio" name="gender" value="male"> Male</label>
+      <label><input type="radio" name="gender" value="other"> Other</label>
+    </div>
+    <div class="error-msg" id="genderErr"></div>
+
+    <!-- Terms checkbox -->
+    <div class="checkbox-row">
+      <input type="checkbox" id="terms" onchange="clearErr('terms')">
+      <label for="terms">I agree to the Terms and Conditions</label>
+    </div>
+    <div class="error-msg" id="termsErr"></div>
+
+    <button class="btn-submit" onclick="submitForm()">Create account</button>
+  </div>
+
+  <!-- Success banner (hidden by default) -->
+  <div class="success-banner" id="successBanner">
+    Account created successfully! Welcome aboard.
+  </div>
+
+  <script>
+    /* ================================
+       HELPER FUNCTIONS
+    ================================ */
+    function showErr(id, msg) {
+      let el = document.getElementById(id + "Err");
+      if (el) {
+        el.textContent = msg;
+        let input = document.getElementById(id);
+        if (input) { input.classList.add("invalid"); input.classList.remove("valid"); }
+      }
+    }
+
+    function clearErr(id) {
+      let el = document.getElementById(id + "Err");
+      if (el) el.textContent = "";
+      let input = document.getElementById(id);
+      if (input) { input.classList.remove("invalid"); }
+    }
+
+    function markValid(id) {
+      let input = document.getElementById(id);
+      if (input) { input.classList.add("valid"); input.classList.remove("invalid"); }
+    }
+
+    function togglePw(id, btn) {
+      let input = document.getElementById(id);
+      if (input.type === "password") {
+        input.type = "text";
+        btn.textContent = "Hide";
+      } else {
+        input.type = "password";
+        btn.textContent = "Show";
+      }
+    }
+
+    /* ================================
+       VALIDATION
+    ================================ */
+    function submitForm() {
+      let valid = true;
+
+      // Check full name
+      let name = document.getElementById("fullName").value.trim();
+      if (name === "") {
+        showErr("fullName", "Full name is required."); valid = false;
+      } else { markValid("fullName"); }
+
+      // Check email
+      let email = document.getElementById("email").value.trim();
+      if (email === "") {
+        showErr("email", "Email is required."); valid = false;
+      } else if (!email.includes("@") || !email.includes(".")) {
+        showErr("email", "Please enter a valid email address."); valid = false;
+      } else { markValid("email"); }
+
+      // Check password
+      let pw = document.getElementById("password").value;
+      if (pw.length < 6) {
+        showErr("password", "Password must be at least 6 characters."); valid = false;
+      } else { markValid("password"); }
+
+      // Check confirm password
+      let confirm = document.getElementById("confirm").value;
+      if (confirm !== pw) {
+        showErr("confirm", "Passwords do not match."); valid = false;
+      } else if (confirm !== "") { markValid("confirm"); }
+
+      // Check gender radio
+      let genderSelected = document.querySelector('input[name="gender"]:checked');
+      if (!genderSelected) {
+        showErr("gender", "Please select a gender."); valid = false;
+      }
+
+      // Check terms checkbox
+      let terms = document.getElementById("terms").checked;
+      if (!terms) {
+        showErr("terms", "You must agree to the terms."); valid = false;
+      }
+
+      // If all valid, show success
+      if (valid) {
+        document.getElementById("formCard").style.display = "none";
+        document.getElementById("successBanner").style.display = "block";
+        document.getElementById("successBanner").textContent =
+          "Account created! Welcome, " + name + "!";
+      }
+    }
+
+    /*
+      CHALLENGE: Try these yourself!
+      1. Add an age field (number input) — must be 13 or older to register
+      2. Add a "strength" indicator for the password (weak/medium/strong)
+      3. Show a green tick icon next to valid fields
+      4. Add a username field — no spaces allowed
+      5. After success, save the name to localStorage
+    */
+  </script>
+</body>
+</html>
