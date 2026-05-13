@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Lesson 7 – Fetch API</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Arial,sans-serif;background:#f0f4f8;padding:40px 20px;}
+h1{color:#2a5fa5;text-align:center;margin-bottom:4px;}
+.subtitle{text-align:center;color:#888;font-size:14px;margin-bottom:28px;}
+.app{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:18px;}
+
+/* section cards */
+.card{background:white;border-radius:12px;border:1px solid #ddd;padding:22px;}
+.card h2{font-size:16px;color:#2a5fa5;margin-bottom:4px;}
+.card p{font-size:13px;color:#888;margin-bottom:14px;}
+
+/* inputs */
+.row{display:flex;gap:8px;margin-bottom:8px;}
+.row input{flex:1;padding:9px 12px;border:1px solid #ddd;border-radius:7px;font-size:14px;outline:none;}
+.row input:focus{border-color:#2a5fa5;}
+.btn{background:#2a5fa5;color:white;border:none;padding:9px 18px;
+  border-radius:7px;font-size:14px;cursor:pointer;white-space:nowrap;}
+.btn:hover{background:#1e4a87;}
+.btn-outline{background:none;border:1px solid #2a5fa5;color:#2a5fa5;
+  padding:9px 18px;border-radius:7px;font-size:14px;cursor:pointer;}
+.btn-outline:hover{background:#e6f1fb;}
+
+/* output areas */
+.output{min-height:50px;font-size:15px;color:#333;line-height:1.7;}
+.loading{color:#888;font-style:italic;}
+.error{color:#e74c3c;}
+.setup{font-weight:bold;color:#333;margin-bottom:4px;}
+.punchline{color:#1D9E75;font-size:15px;}
+
+/* posts */
+.post{border-bottom:1px solid #f0f0f0;padding:12px 0;}
+.post:last-child{border-bottom:none;}
+.post h3{font-size:14px;color:#2a5fa5;margin-bottom:4px;text-transform:capitalize;}
+.post p{font-size:13px;color:#666;line-height:1.6;}
+#postList{max-height:260px;overflow-y:auto;}
+
+/* pokemon */
+.poke-result{display:flex;align-items:center;gap:16px;margin-top:10px;}
+.poke-img{width:80px;height:80px;background:#f0f4f8;border-radius:50%;}
+.poke-info h3{font-size:18px;color:#333;text-transform:capitalize;}
+.poke-info p{font-size:13px;color:#666;margin-top:2px;}
+.type-badge{display:inline-block;font-size:11px;padding:3px 10px;border-radius:20px;
+  margin:3px 3px 0 0;background:#e6f1fb;color:#0c447c;text-transform:capitalize;}
+</style>
+</head>
+<body>
+
+<h1>Fetch API Playground</h1>
+<p class="subtitle">Lesson 7 — Pull live data from the internet</p>
+
+<div class="app">
+
+  <!-- JOKE GENERATOR -->
+  <div class="card">
+    <h2>Random joke generator</h2>
+    <p>Fetches a fresh joke from the Official Joke API every time you click</p>
+    <button class="btn" onclick="getJoke()">Get a joke</button>
+    <div class="output" id="jokeOutput" style="margin-top:14px;">
+      Click the button to load your first joke!
+    </div>
+  </div>
+
+  <!-- BLOG POSTS -->
+  <div class="card">
+    <h2>Fetch blog posts</h2>
+    <p>Loads fake posts from JSONPlaceholder — a free practice API</p>
+    <div class="row">
+      <select id="postCount" style="flex:1;padding:9px 12px;border:1px solid #ddd;border-radius:7px;font-size:14px;outline:none;">
+        <option value="3">3 posts</option>
+        <option value="5" selected>5 posts</option>
+        <option value="10">10 posts</option>
+      </select>
+      <button class="btn" onclick="getPosts()">Load posts</button>
+    </div>
+    <div id="postList" class="output">Posts will appear here...</div>
+  </div>
+
+  <!-- POKEMON LOOKUP -->
+  <div class="card">
+    <h2>Pokemon lookup</h2>
+    <p>Search any Pokemon by name using the free PokeAPI</p>
+    <div class="row">
+      <input type="text" id="pokeInput" placeholder="e.g. pikachu, charizard, mewtwo">
+      <button class="btn" onclick="searchPoke()">Search</button>
+    </div>
+    <div id="pokeResult" class="output">Enter a Pokemon name above</div>
+  </div>
+
+</div>
+
+<script>
+  /* =============================================
+     SECTION 1: JOKE GENERATOR
+     API: https://official-joke-api.appspot.com
+  ============================================= */
+  function getJoke() {
+    let out = document.getElementById("jokeOutput");
+
+    // Step 1: show loading state
+    out.innerHTML = '<span class="loading">Fetching a joke...</span>';
+
+    // Step 2: call the API
+    fetch("https://official-joke-api.appspot.com/random_joke")
+      .then(function(response) {
+        return response.json(); // parse the JSON text into an object
+      })
+      .then(function(data) {
+        // Step 3: display the data
+        out.innerHTML = `
+          <div class="setup">${data.setup}</div>
+          <div class="punchline">${data.punchline}</div>
+        `;
+      })
+      .catch(function(error) {
+        // Step 4: handle errors
+        out.innerHTML = '<span class="error">Could not load a joke. Check your internet connection.</span>';
+      });
+  }
+
+  /* =============================================
+     SECTION 2: FETCH BLOG POSTS
+     API: https://jsonplaceholder.typicode.com
+  ============================================= */
+  function getPosts() {
+    let list  = document.getElementById("postList");
+    let count = document.getElementById("postCount").value;
+
+    list.innerHTML = '<span class="loading">Loading posts...</span>';
+
+    fetch(`https://jsonplaceholder.typicode.com/posts?_limit=${count}`)
+      .then(r => r.json())
+      .then(posts => {
+        // Loop through the array and build HTML using template literals
+        list.innerHTML = posts.map(post => `
+          <div class="post">
+            <h3>${post.title}</h3>
+            <p>${post.body}</p>
+          </div>
+        `).join("");
+      })
+      .catch(() => {
+        list.innerHTML = '<span class="error">Failed to load posts.</span>';
+      });
+  }
+
+  /* =============================================
+     SECTION 3: POKEMON LOOKUP
+     API: https://pokeapi.co
+  ============================================= */
+  function searchPoke() {
+    let name   = document.getElementById("pokeInput").value.trim().toLowerCase();
+    let result = document.getElementById("pokeResult");
+
+    if (!name) { alert("Enter a Pokemon name!"); return; }
+
+    result.innerHTML = '<span class="loading">Searching for ' + name + '...</span>';
+
+    fetch(`https://pokeapi.co/api/v2/pokemon/${name}`)
+      .then(response => {
+        if (!response.ok) throw new Error("Not found");
+        return response.json();
+      })
+      .then(p => {
+        // Build type badges
+        let types = p.types.map(t =>
+          `<span class="type-badge">${t.type.name}</span>`
+        ).join("");
+
+        // Display the result
+        result.innerHTML = `
+          <div class="poke-result">
+            <img class="poke-img" src="${p.sprites.front_default}" alt="${p.name}">
+            <div class="poke-info">
+              <h3>${p.name}</h3>
+              <p>HP: ${p.stats[0].base_stat} &nbsp;|&nbsp; Speed: ${p.stats[5].base_stat}</p>
+              <p>Height: ${p.height / 10}m &nbsp;|&nbsp; Weight: ${p.weight / 10}kg</p>
+              <div style="margin-top:6px;">${types}</div>
+            </div>
+          </div>
+        `;
+      })
+      .catch(() => {
+        result.innerHTML = `<span class="error">Pokemon "${name}" not found. Try: pikachu, bulbasaur, snorlax</span>`;
+      });
+  }
+
+  // Press Enter to search Pokemon
+  document.getElementById("pokeInput").addEventListener("keydown", e => {
+    if (e.key === "Enter") searchPoke();
+  });
+
+  /*
+    CHALLENGE:
+    1. Add a "Previous joke" button — store the last 5 jokes in an array
+    2. Fetch user info from jsonplaceholder.typicode.com/users and display as cards
+    3. Add a Pokemon comparison — search 2 Pokemon and compare their HP
+    4. Save the last searched Pokemon to localStorage so it shows on page load
+  */
+</script>
+</body>
+</html>
